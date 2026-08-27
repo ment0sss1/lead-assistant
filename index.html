@@ -1,265 +1,658 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lead Assistant</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<title>LeadFlow</title>
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f7fb;
-      color: #172033;
-      min-height: 100vh;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 50px 20px;
-    }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f6f7fb;
+  color: #172033;
+}
 
-    header {
-      margin-bottom: 30px;
-    }
+/* SIDEBAR */
 
-    h1 {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 220px;
+  background: #ffffff;
+  border-right: 1px solid #e8eaf0;
+  padding: 28px 18px;
+}
 
-    .subtitle {
-      color: #667085;
-      font-size: 16px;
-    }
+.logo {
+  font-size: 21px;
+  font-weight: 700;
+  padding: 0 12px 35px;
+}
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 20px;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.05);
-      border: 1px solid #e8ebf0;
-    }
+.logo span {
+  color: #635bff;
+}
 
-    .card h2 {
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
+.nav-item {
+  padding: 11px 12px;
+  border-radius: 9px;
+  margin-bottom: 5px;
+  color: #667085;
+  cursor: pointer;
+  font-size: 14px;
+}
 
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
+.nav-item:hover {
+  background: #f1f2ff;
+  color: #635bff;
+}
 
-    input, textarea {
-      width: 100%;
-      border: 1px solid #d9dee8;
-      border-radius: 10px;
-      padding: 13px;
-      font-size: 15px;
-      margin-bottom: 18px;
-      font-family: inherit;
-      outline: none;
-    }
+.nav-item.active {
+  background: #eeedff;
+  color: #635bff;
+  font-weight: 600;
+}
 
-    input:focus, textarea:focus {
-      border-color: #635bff;
-      box-shadow: 0 0 0 3px rgba(99,91,255,0.1);
-    }
+/* MAIN */
 
-    textarea {
-      min-height: 130px;
-      resize: vertical;
-    }
+.main {
+  margin-left: 220px;
+  padding: 40px;
+  max-width: 1300px;
+}
 
-    button {
-      background: #635bff;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 13px 20px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-    }
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
 
-    button:hover {
-      background: #5148e5;
-    }
+.page-title h1 {
+  font-size: 28px;
+  margin-bottom: 5px;
+}
 
-    .result {
-      display: none;
-    }
+.page-title p {
+  color: #667085;
+  font-size: 14px;
+}
 
-    .result.visible {
-      display: block;
-    }
+.primary-button {
+  background: #635bff;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 9px;
+  font-weight: 600;
+  cursor: pointer;
+}
 
-    .badges {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
+.primary-button:hover {
+  background: #5148e5;
+}
 
-    .badge {
-      padding: 7px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-    }
+/* STATS */
 
-    .high {
-      background: #fee4e2;
-      color: #b42318;
-    }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 25px;
+}
 
-    .category {
-      background: #e0e7ff;
-      color: #3730a3;
-    }
+.stat {
+  background: white;
+  border: 1px solid #e8eaf0;
+  border-radius: 14px;
+  padding: 20px;
+}
 
-    .response {
-      background: #f8f9fc;
-      border-radius: 10px;
-      padding: 18px;
-      line-height: 1.6;
-      margin-bottom: 15px;
-      white-space: pre-line;
-    }
+.stat-label {
+  font-size: 13px;
+  color: #667085;
+  margin-bottom: 8px;
+}
 
-    .copy-button {
-      background: #172033;
-    }
+.stat-number {
+  font-size: 27px;
+  font-weight: 700;
+}
 
-    .copy-button:hover {
-      background: #0e1421;
-    }
+/* CARD */
 
-    .success {
-      color: #027a48;
-      font-size: 14px;
-      margin-left: 10px;
-    }
+.card {
+  background: white;
+  border: 1px solid #e8eaf0;
+  border-radius: 14px;
+  padding: 25px;
+  margin-bottom: 20px;
+}
 
-    @media (max-width: 600px) {
-      .container {
-        padding: 30px 15px;
-      }
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
 
-      .card {
-        padding: 20px;
-      }
-    }
-  </style>
+.card-header h2 {
+  font-size: 18px;
+}
+
+/* TABLE */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+td {
+  padding: 16px 12px;
+  border-bottom: 1px solid #f0f1f4;
+  font-size: 14px;
+}
+
+td:first-child {
+  font-weight: 600;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.high {
+  background: #fee4e2;
+  color: #b42318;
+}
+
+.medium {
+  background: #fff3cd;
+  color: #946200;
+}
+
+.low {
+  background: #e8f5ee;
+  color: #027a48;
+}
+
+.status {
+  color: #667085;
+}
+
+/* NEW LEAD */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d9dee8;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #635bff;
+  box-shadow: 0 0 0 3px rgba(99,91,255,.1);
+}
+
+.hidden {
+  display: none;
+}
+
+/* ANALYSIS */
+
+.analysis {
+  background: #f8f9fc;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 25px;
+}
+
+.analysis-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #e6e8ee;
+}
+
+.analysis-row:last-child {
+  border-bottom: none;
+}
+
+.response {
+  background: white;
+  padding: 18px;
+  border-radius: 9px;
+  margin-top: 15px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+/* MOBILE */
+
+@media(max-width: 800px) {
+
+  .sidebar {
+    width: 65px;
+  }
+
+  .logo {
+    font-size: 0;
+  }
+
+  .logo span {
+    font-size: 21px;
+  }
+
+  .nav-item {
+    font-size: 0;
+    text-align: center;
+  }
+
+  .main {
+    margin-left: 65px;
+    padding: 25px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full {
+    grid-column: auto;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<!-- SIDEBAR -->
 
-    <header>
-      <h1>Lead Assistant</h1>
-      <p class="subtitle">
-        Turn customer inquiries into organized, actionable leads.
-      </p>
-    </header>
+<div class="sidebar">
 
-    <div class="card">
-      <h2>New Lead</h2>
-
-      <label for="name">Customer Name</label>
-      <input id="name" type="text" placeholder="John Smith">
-
-      <label for="email">Email</label>
-      <input id="email" type="email" placeholder="john@example.com">
-
-      <label for="message">Customer Message</label>
-      <textarea id="message"
-        placeholder="I'm interested in getting a quote for..."></textarea>
-
-      <button onclick="analyzeLead()">Analyze Lead</button>
-    </div>
-
-    <div class="card result" id="result">
-
-      <h2>Lead Analysis</h2>
-
-      <div class="badges">
-        <span class="badge high">HIGH PRIORITY</span>
-        <span class="badge category">Potential Customer</span>
-      </div>
-
-      <h3 style="margin-bottom: 10px;">Suggested Response</h3>
-
-      <div class="response" id="response"></div>
-
-      <button class="copy-button" onclick="copyResponse()">
-        Copy Response
-      </button>
-
-      <span class="success" id="success"></span>
-
-    </div>
-
+  <div class="logo">
+    Lead<span>Flow</span>
   </div>
 
-  <script>
+  <div class="nav-item active" onclick="showDashboard()">
+    Dashboard
+  </div>
 
-    function analyzeLead() {
+  <div class="nav-item" onclick="showNewLead()">
+    + New Lead
+  </div>
 
-      const name = document.getElementById("name").value.trim();
-      const message = document.getElementById("message").value.trim();
+  <div class="nav-item">
+    Leads
+  </div>
 
-      if (!name || !message) {
-        alert("Please enter the customer's name and message.");
-        return;
-      }
+  <div class="nav-item">
+    Settings
+  </div>
 
-      const response =
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+  <!-- DASHBOARD -->
+
+  <section id="dashboard">
+
+    <div class="topbar">
+
+      <div class="page-title">
+        <h1>Dashboard</h1>
+        <p>Here's what's happening with your leads.</p>
+      </div>
+
+      <button class="primary-button" onclick="showNewLead()">
+        + New Lead
+      </button>
+
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-label">Total Leads</div>
+        <div class="stat-number">24</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">New Leads</div>
+        <div class="stat-number">8</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">High Priority</div>
+        <div class="stat-number">5</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">Conversion Rate</div>
+        <div class="stat-number">21%</div>
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-header">
+        <h2>Recent Leads</h2>
+      </div>
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>NAME</th>
+            <th>EMAIL</th>
+            <th>PRIORITY</th>
+            <th>STATUS</th>
+            <th>DATE</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>James Wilson</td>
+            <td>james@example.com</td>
+            <td><span class="badge high">HIGH</span></td>
+            <td class="status">New</td>
+            <td>Today</td>
+          </tr>
+
+          <tr>
+            <td>Sarah Miller</td>
+            <td>sarah@example.com</td>
+            <td><span class="badge medium">MEDIUM</span></td>
+            <td class="status">Contacted</td>
+            <td>Yesterday</td>
+          </tr>
+
+          <tr>
+            <td>Daniel Brown</td>
+            <td>daniel@example.com</td>
+            <td><span class="badge high">HIGH</span></td>
+            <td class="status">Follow-up</td>
+            <td>Yesterday</td>
+          </tr>
+
+          <tr>
+            <td>Emma Davis</td>
+            <td>emma@example.com</td>
+            <td><span class="badge low">LOW</span></td>
+            <td class="status">New</td>
+            <td>Aug 25</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+
+  <!-- NEW LEAD -->
+
+  <section id="newLead" class="hidden">
+
+    <div class="topbar">
+
+      <div class="page-title">
+
+        <h1>New Lead</h1>
+
+        <p>
+          Analyze a customer inquiry and generate a response.
+        </p>
+
+      </div>
+
+      <button class="primary-button" onclick="showDashboard()">
+        Back to Dashboard
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="form-grid">
+
+        <div>
+          <label>Customer Name</label>
+          <input id="name" placeholder="John Smith">
+        </div>
+
+        <div>
+          <label>Email</label>
+          <input id="email" placeholder="john@example.com">
+        </div>
+
+        <div class="full">
+
+          <label>Customer Message</label>
+
+          <textarea id="message"
+            placeholder="I'm interested in getting a quote for..."></textarea>
+
+        </div>
+
+        <div>
+
+          <label>Lead Source</label>
+
+          <select id="source">
+
+            <option>Website</option>
+            <option>Email</option>
+            <option>Facebook</option>
+            <option>Instagram</option>
+            <option>Phone</option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+      <br>
+
+      <button class="primary-button" onclick="analyzeLead()">
+        Analyze Lead
+      </button>
+
+
+      <div id="analysis" class="analysis hidden">
+
+        <h2 style="margin-bottom:15px;">
+          Lead Analysis
+        </h2>
+
+        <div class="analysis-row">
+          <strong>Priority</strong>
+          <span class="badge high">HIGH</span>
+        </div>
+
+        <div class="analysis-row">
+          <strong>Category</strong>
+          <span>Potential Customer</span>
+        </div>
+
+        <div class="analysis-row">
+          <strong>Recommended Action</strong>
+          <span>Respond as soon as possible</span>
+        </div>
+
+        <br>
+
+        <strong>Suggested Response</strong>
+
+        <div id="response" class="response"></div>
+
+        <br>
+
+        <button class="primary-button" onclick="copyResponse()">
+          Copy Response
+        </button>
+
+        <span id="copied" style="color:#027a48;margin-left:10px;"></span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<script>
+
+function showDashboard() {
+
+  document.getElementById("dashboard")
+    .classList.remove("hidden");
+
+  document.getElementById("newLead")
+    .classList.add("hidden");
+
+}
+
+
+function showNewLead() {
+
+  document.getElementById("dashboard")
+    .classList.add("hidden");
+
+  document.getElementById("newLead")
+    .classList.remove("hidden");
+
+}
+
+
+function analyzeLead() {
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const message =
+    document.getElementById("message").value.trim();
+
+  if (!name || !message) {
+
+    alert("Please enter the customer's name and message.");
+
+    return;
+
+  }
+
+
+  const response =
+
 `Hi ${name},
 
-Thanks for reaching out! We'd be happy to help.
+Thanks for reaching out!
 
-We've received your inquiry and would love to learn a little more about what you're looking for.
+We've received your inquiry and would be happy to help.
 
-Could you let us know your preferred timeframe and any additional details that would help us prepare?
+Based on your message, we'd love to learn a little more about what you're looking for so we can provide the most accurate information.
+
+Could you let us know your preferred timeframe and any additional details?
 
 We'll get back to you as soon as possible.
 
 Best,
 The Team`;
 
-      document.getElementById("response").textContent = response;
 
-      document.getElementById("result").classList.add("visible");
+  document.getElementById("response")
+    .textContent = response;
 
-      document.getElementById("result").scrollIntoView({
-        behavior: "smooth"
-      });
-    }
+  document.getElementById("analysis")
+    .classList.remove("hidden");
 
-    function copyResponse() {
+}
 
-      const response =
-        document.getElementById("response").textContent;
 
-      navigator.clipboard.writeText(response);
+function copyResponse() {
 
-      document.getElementById("success").textContent =
-        "Copied!";
-    }
+  const text =
+    document.getElementById("response").textContent;
 
-  </script>
+  navigator.clipboard.writeText(text);
+
+  document.getElementById("copied")
+    .textContent = "Copied!";
+
+}
+
+</script>
 
 </body>
 </html>
