@@ -142,15 +142,109 @@ function makeResponse(name){
   let close=tone==="Short and direct"?`Please send over your preferred timeframe and any key details, and we'll get back to you.`:`We'd be happy to help. Could you share your preferred timeframe and any additional details about what you need? We'll get back to you as soon as possible.`;
   return `${greeting}\n\n${close}\n\nBest,\n${b}`;
 }
-function analyzeLead(){
-  const nameEl=document.getElementById("name"),emailEl=document.getElementById("email"),messageEl=document.getElementById("message");
-  const name=nameEl.value.trim(),email=emailEl.value.trim(),message=messageEl.value.trim(),source=document.getElementById("source").value;
-  if(!name||!message){alert("Please enter the customer's name and message.");return}
-  const a=classify(message),response=makeResponse(name);
-  priorityBadge.textContent=a.priority;priorityBadge.className="badge "+a.priority.toLowerCase();
-  category.textContent=a.category;recommendedAction.textContent=a.action;leadScore.textContent=a.score+"/100";document.getElementById("response").textContent=response;analysis.classList.remove("hidden");
-  const lead={id:Date.now(),name,email,message,source,priority:a.priority,category:a.category,status:"New",response,date:new Date().toLocaleDateString()};
-  leads.unshift(lead);localStorage.setItem("leadflow_leads",JSON.stringify(leads));renderLeads();showToast("Lead analyzed and saved");
+async function analyzeLead(){
+  const nameEl = document.getElementById("name");
+  const emailEl = document.getElementById("email");
+  const messageEl = document.getElementById("message");
+  const sourceEl = document.getElementById("source");
+
+  const name = nameEl.value.trim();
+  const email = emailEl.value.trim();
+  const message = messageEl.value.trim();
+  const source = sourceEl.value;
+
+  if(!name || !message){
+    alert("Please enter the customer's name and message.");
+    return;
+  }
+
+  const button = document.getElementById("analyzeButton");
+  button.disabled = true;
+  button.textContent = "AI is analyzing...";
+
+  try {
+    const aiResponse = await fetch(
+      "https://llm-chat-app-template.leadflow67.workers.dev/api/analyze",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          business: {
+            name: settings.businessName,
+            industry: settings.businessType,
+            services: settings.services
+          },
+          lead: {
+            name: name,
+            email: email,
+            message: message,
+            source: source
+          }
+        })
+      }
+    );
+
+    if(!aiResponse.ok){
+      throw new Error("AI request failed: " + aiResponse.status);
+    }
+
+    const a = await aiResponse.json();
+
+    priorityBadge.textContent = a.priority || "MEDIUM";
+    priorityBadge.className =
+      "badge " + (a.priority || "MEDIUM").toLowerCase();
+
+    category.textContent = a.category || "Needs Review";
+    recommendedAction.textContent =
+      a.recommendedAction || "Review this lead manually.";
+
+    leadScore.textContent = (a.score ?? 50) + "/100";
+
+    document.getElementById("response").textContent =
+      a.suggestedReply ||
+      "Thanks for reaching out. We've received your message and will get back to you shortly.";
+
+    analysis.classList.remove("hidden");
+
+    const lead = {
+      id: Date.now(),
+      name,
+      email,
+      message,
+      source,
+      priority: a.priority || "MEDIUM",
+      category: a.category || "Needs Review",
+      status: "New",
+      response: a.suggestedReply || "",
+      date: new Date().toLocaleDateString()
+    };
+
+    leads.unshift(lead);
+    localStorage.setItem(
+      "leadflow_leads",
+      JSON.stringify(leads)
+    );
+
+    renderLeads();
+    showToast("AI analyzed and saved the lead");
+
+  } catch(error) {
+
+    console.error(error);
+
+    alert(
+      "LeadFlow couldn't connect to the AI right now. " +
+      "Please try again."
+    );
+
+  } finally {
+
+    button.disabled = false;
+    button.textContent = "Analyze Lead";
+
+  }
 }
 function renderLeads(){
   const q=(document.getElementById("leadSearch")?.value||"").toLowerCase(),filter=document.getElementById("statusFilter")?.value||"ALL";
