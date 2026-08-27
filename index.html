@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lead Assistant</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 50px 20px;
+    }
+
+    header {
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #667085;
+      font-size: 16px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+      border: 1px solid #e8ebf0;
+    }
+
+    .card h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid #d9dee8;
+      border-radius: 10px;
+      padding: 13px;
+      font-size: 15px;
+      margin-bottom: 18px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #635bff;
+      box-shadow: 0 0 0 3px rgba(99,91,255,0.1);
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    button {
+      background: #635bff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5148e5;
+    }
+
+    .result {
+      display: none;
+    }
+
+    .result.visible {
+      display: block;
+    }
+
+    .badges {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .high {
+      background: #fee4e2;
+      color: #b42318;
+    }
+
+    .category {
+      background: #e0e7ff;
+      color: #3730a3;
+    }
+
+    .response {
+      background: #f8f9fc;
+      border-radius: 10px;
+      padding: 18px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      white-space: pre-line;
+    }
+
+    .copy-button {
+      background: #172033;
+    }
+
+    .copy-button:hover {
+      background: #0e1421;
+    }
+
+    .success {
+      color: #027a48;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 30px 15px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <header>
+      <h1>Lead Assistant</h1>
+      <p class="subtitle">
+        Turn customer inquiries into organized, actionable leads.
+      </p>
+    </header>
+
+    <div class="card">
+      <h2>New Lead</h2>
+
+      <label for="name">Customer Name</label>
+      <input id="name" type="text" placeholder="John Smith">
+
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="john@example.com">
+
+      <label for="message">Customer Message</label>
+      <textarea id="message"
+        placeholder="I'm interested in getting a quote for..."></textarea>
+
+      <button onclick="analyzeLead()">Analyze Lead</button>
+    </div>
+
+    <div class="card result" id="result">
+
+      <h2>Lead Analysis</h2>
+
+      <div class="badges">
+        <span class="badge high">HIGH PRIORITY</span>
+        <span class="badge category">Potential Customer</span>
+      </div>
+
+      <h3 style="margin-bottom: 10px;">Suggested Response</h3>
+
+      <div class="response" id="response"></div>
+
+      <button class="copy-button" onclick="copyResponse()">
+        Copy Response
+      </button>
+
+      <span class="success" id="success"></span>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    function analyzeLead() {
+
+      const name = document.getElementById("name").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      if (!name || !message) {
+        alert("Please enter the customer's name and message.");
+        return;
+      }
+
+      const response =
+`Hi ${name},
+
+Thanks for reaching out! We'd be happy to help.
+
+We've received your inquiry and would love to learn a little more about what you're looking for.
+
+Could you let us know your preferred timeframe and any additional details that would help us prepare?
+
+We'll get back to you as soon as possible.
+
+Best,
+The Team`;
+
+      document.getElementById("response").textContent = response;
+
+      document.getElementById("result").classList.add("visible");
+
+      document.getElementById("result").scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+    function copyResponse() {
+
+      const response =
+        document.getElementById("response").textContent;
+
+      navigator.clipboard.writeText(response);
+
+      document.getElementById("success").textContent =
+        "Copied!";
+    }
+
+  </script>
+
+</body>
+</html>
