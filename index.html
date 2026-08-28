@@ -7,7 +7,11 @@
 <title>LeadFlow — AI Lead Assistant</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
   font-family:Inter,Arial,sans-serif;
@@ -15,11 +19,22 @@ body{
   color:#172033;
 }
 
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
+button,input,textarea,select{
+  font:inherit;
+}
 
-.app{display:flex;min-height:100vh}
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.app{
+  display:flex;
+  min-height:100vh;
+}
 
 .sidebar{
   width:230px;
@@ -38,7 +53,9 @@ button{cursor:pointer}
   padding:8px 12px 30px;
 }
 
-.logo span{color:#8b5cf6}
+.logo span{
+  color:#8b5cf6;
+}
 
 .nav-item{
   padding:12px 14px;
@@ -270,6 +287,26 @@ textarea{
   color:#166534;
 }
 
+/* LEAD SEARCH TOOLBAR */
+
+.toolbar{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  width:100%;
+}
+
+.toolbar input{
+  flex:1;
+  min-width:0;
+  width:auto;
+}
+
+.toolbar select{
+  width:180px;
+  flex-shrink:0;
+}
+
 .response{
   margin-top:10px;
   background:#f7f8fc;
@@ -278,15 +315,6 @@ textarea{
   padding:16px;
   line-height:1.6;
   white-space:pre-wrap;
-}
-
-.toolbar{
-  display:flex;
-  gap:12px;
-}
-
-.toolbar input{
-  flex:1;
 }
 
 .loading{
@@ -359,6 +387,15 @@ textarea{
     grid-column:auto;
   }
 
+  .toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .toolbar input,
+  .toolbar select{
+    width:100%;
+  }
 }
 </style>
 </head>
@@ -399,7 +436,6 @@ textarea{
 
 </div>
 
-
 <div class="main">
 
 <section id="dashboard">
@@ -432,7 +468,6 @@ textarea{
 
   </div>
 
-
   <div class="topbar">
 
     <div class="page-title">
@@ -452,11 +487,9 @@ textarea{
 
   </div>
 
-
   <div id="dashboardError"
        class="error-box hidden">
   </div>
-
 
   <div class="stats">
 
@@ -471,7 +504,6 @@ textarea{
       </div>
     </div>
 
-
     <div class="stat">
       <div class="stat-label">
         New Leads
@@ -483,7 +515,6 @@ textarea{
       </div>
     </div>
 
-
     <div class="stat">
       <div class="stat-label">
         High Priority
@@ -494,7 +525,6 @@ textarea{
         0
       </div>
     </div>
-
 
     <div class="stat">
       <div class="stat-label">
@@ -508,7 +538,6 @@ textarea{
     </div>
 
   </div>
-
 
   <div class="card">
 
@@ -524,7 +553,6 @@ textarea{
       </button>
 
     </div>
-
 
     <div class="table-container">
 
@@ -543,7 +571,6 @@ textarea{
         </thead>
 
         <tbody id="leadTable">
-
         </tbody>
 
       </table>
@@ -553,7 +580,6 @@ textarea{
   </div>
 
 </section>
-
 
 <section id="newLead" class="hidden">
 
@@ -576,7 +602,6 @@ textarea{
 
   </div>
 
-
   <div class="card">
 
     <div class="form-grid">
@@ -592,7 +617,6 @@ textarea{
 
       </div>
 
-
       <div>
 
         <label>
@@ -605,7 +629,6 @@ textarea{
 
       </div>
 
-
       <div>
 
         <label>
@@ -617,7 +640,6 @@ textarea{
                placeholder="+1 555 123 4567">
 
       </div>
-
 
       <div>
 
@@ -638,7 +660,6 @@ textarea{
 
       </div>
 
-
       <div class="full">
 
         <label>
@@ -654,9 +675,7 @@ textarea{
 
     </div>
 
-
     <br>
-
 
     <button class="primary-button"
             id="analyzeButton"
@@ -666,14 +685,12 @@ textarea{
 
     </button>
 
-
     <div id="analysis"
          class="analysis hidden">
 
       <h2 style="margin-bottom:15px">
         Lead Analysis
       </h2>
-
 
       <div class="analysis-row">
 
@@ -688,7 +705,6 @@ textarea{
 
       </div>
 
-
       <div class="analysis-row">
 
         <strong>
@@ -698,7 +714,6 @@ textarea{
         <span id="category"></span>
 
       </div>
-
 
       <div class="analysis-row">
 
@@ -710,7 +725,6 @@ textarea{
 
       </div>
 
-
       <div class="analysis-row">
 
         <strong>
@@ -720,7 +734,6 @@ textarea{
         <span id="leadScore"></span>
 
       </div>
-
 
       <div class="analysis-row">
 
@@ -732,22 +745,17 @@ textarea{
 
       </div>
 
-
       <br>
-
 
       <strong>
         Suggested Response
       </strong>
 
-
       <div id="response"
            class="response">
       </div>
 
-
       <br>
-
 
       <button class="primary-button"
               onclick="copyResponse()">
@@ -755,7 +763,6 @@ textarea{
         Copy Response
 
       </button>
-
 
       <span id="copied"
             class="muted">
@@ -766,7 +773,6 @@ textarea{
   </div>
 
 </section>
-
 
 <section id="leads" class="hidden">
 
@@ -782,7 +788,6 @@ textarea{
 
     </div>
 
-
     <button class="primary-button"
             onclick="showPage('newLead')">
 
@@ -792,17 +797,15 @@ textarea{
 
   </div>
 
-
   <div class="card">
 
     <div class="toolbar">
 
       <input
         id="leadSearch"
-        placeholder="Search leads..."
+        placeholder="Search by name, email, phone, or message..."
         oninput="loadLeadsPage()"
       >
-
 
       <select
         id="statusFilter"
@@ -821,14 +824,11 @@ textarea{
 
     </div>
 
-
     <br>
-
 
     <div id="leadsError"
          class="error-box hidden">
     </div>
-
 
     <div class="table-container">
 
@@ -847,9 +847,7 @@ textarea{
 
         </thead>
 
-
         <tbody id="allLeadTable">
-
         </tbody>
 
       </table>
@@ -857,7 +855,6 @@ textarea{
     </div>
 
   </div>
-
 
   <div id="leadDetails"
        class="card hidden"
@@ -876,14 +873,12 @@ textarea{
 
     </div>
 
-
     <div id="leadDetailsContent">
     </div>
 
   </div>
 
 </section>
-
 
 <section id="settings" class="hidden">
 
@@ -903,13 +898,11 @@ textarea{
 
   </div>
 
-
   <div class="card">
 
     <h2 style="margin-bottom:8px">
       Business Profile
     </h2>
-
 
     <p class="muted small"
        style="margin-bottom:23px">
@@ -918,7 +911,6 @@ textarea{
       AI-generated replies.
 
     </p>
-
 
     <div class="form-grid">
 
@@ -934,7 +926,6 @@ textarea{
 
       </div>
 
-
       <div>
 
         <label>
@@ -946,7 +937,6 @@ textarea{
           placeholder="Plumbing Company">
 
       </div>
-
 
       <div class="full">
 
@@ -960,7 +950,6 @@ textarea{
         ></textarea>
 
       </div>
-
 
       <div>
 
@@ -992,9 +981,7 @@ textarea{
 
     </div>
 
-
     <br>
-
 
     <button class="primary-button"
             onclick="saveSettings()">
@@ -1002,7 +989,6 @@ textarea{
       Save Settings
 
     </button>
-
 
     <span id="settingsSaved"
           class="muted">
@@ -1014,19 +1000,16 @@ textarea{
 
 </div>
 
-
 <div id="toast"
      class="toast hidden">
 </div>
 
 </div>
 
-
 <script>
 
 const API_BASE =
   "https://llm-chat-app-template.leadflow67.workers.dev";
-
 
 let leads = [];
 
@@ -1037,21 +1020,16 @@ let settings =
     ) || "{}"
   );
 
-
 settings = {
 
   businessName: "",
-
   businessType: "",
-
   services: "",
-
   tone: "Professional and friendly",
 
   ...settings
 
 };
-
 
 /*
  * NAVIGATION
@@ -1069,10 +1047,8 @@ function showPage(page){
 
     });
 
-
   const target =
     document.getElementById(page);
-
 
   if(target){
 
@@ -1081,7 +1057,6 @@ function showPage(page){
     );
 
   }
-
 
   document
     .querySelectorAll(".nav-item")
@@ -1094,29 +1069,19 @@ function showPage(page){
 
     });
 
-
   if(page === "dashboard"){
-
     loadDashboard();
-
   }
-
 
   if(page === "leads"){
-
     loadLeadsPage();
-
   }
 
-
   if(page === "settings"){
-
     loadSettings();
-
   }
 
 }
-
 
 /*
  * DASHBOARD
@@ -1131,10 +1096,8 @@ async function loadDashboard(){
         API_BASE + "/api/stats"
       );
 
-
     const statsData =
       await statsResponse.json();
-
 
     if(
       statsResponse.ok &&
@@ -1142,50 +1105,34 @@ async function loadDashboard(){
     ){
 
       document
-        .getElementById(
-          "totalLeads"
-        )
+        .getElementById("totalLeads")
         .textContent =
           statsData.stats.totalLeads;
 
-
       document
-        .getElementById(
-          "newLeads"
-        )
+        .getElementById("newLeads")
         .textContent =
           statsData.stats.newLeads;
 
-
       document
-        .getElementById(
-          "highPriority"
-        )
+        .getElementById("highPriority")
         .textContent =
           statsData.stats.highPriority;
 
-
       document
-        .getElementById(
-          "conversionRate"
-        )
+        .getElementById("conversionRate")
         .textContent =
           statsData.stats.conversionRate +
           "%";
 
     }
 
-
     await loadRecentLeads();
 
-
     document
-      .getElementById(
-        "dashboardError"
-      )
+      .getElementById("dashboardError")
       .classList
       .add("hidden");
-
 
   }catch(error){
 
@@ -1194,18 +1141,13 @@ async function loadDashboard(){
       error
     );
 
-
     document
-      .getElementById(
-        "dashboardError"
-      )
+      .getElementById("dashboardError")
       .textContent =
         "Unable to load dashboard data. Please refresh.";
 
     document
-      .getElementById(
-        "dashboardError"
-      )
+      .getElementById("dashboardError")
       .classList
       .remove("hidden");
 
@@ -1213,14 +1155,12 @@ async function loadDashboard(){
 
 }
 
-
 async function loadRecentLeads(){
 
   const table =
     document.getElementById(
       "leadTable"
     );
-
 
   table.innerHTML = `
 
@@ -1237,17 +1177,14 @@ async function loadRecentLeads(){
 
   `;
 
-
   const response =
     await fetch(
       API_BASE +
       "/api/leads"
     );
 
-
   const data =
     await response.json();
-
 
   if(
     !response.ok ||
@@ -1261,16 +1198,13 @@ async function loadRecentLeads(){
 
   }
 
-
   leads =
     data.leads.map(
       normalizeLead
     );
 
-
   const recent =
     leads.slice(0,8);
-
 
   if(!recent.length){
 
@@ -1292,7 +1226,6 @@ async function loadRecentLeads(){
     return;
 
   }
-
 
   table.innerHTML =
     recent.map(
@@ -1333,7 +1266,6 @@ async function loadRecentLeads(){
 
 }
 
-
 /*
  * LOAD LEADS PAGE
  */
@@ -1345,18 +1277,15 @@ async function loadLeadsPage(){
       "allLeadTable"
     );
 
-
   const search =
     document.getElementById(
       "leadSearch"
     ).value.trim();
 
-
   const status =
     document.getElementById(
       "statusFilter"
     ).value;
-
 
   table.innerHTML = `
 
@@ -1373,12 +1302,10 @@ async function loadLeadsPage(){
 
   `;
 
-
   try{
 
     const params =
       new URLSearchParams();
-
 
     if(
       status &&
@@ -1392,7 +1319,6 @@ async function loadLeadsPage(){
 
     }
 
-
     if(search){
 
       params.set(
@@ -1402,12 +1328,10 @@ async function loadLeadsPage(){
 
     }
 
-
     const query =
       params.toString()
         ? "?" + params.toString()
         : "";
-
 
     const response =
       await fetch(
@@ -1416,10 +1340,8 @@ async function loadLeadsPage(){
         query
       );
 
-
     const data =
       await response.json();
-
 
     if(
       !response.ok ||
@@ -1433,23 +1355,17 @@ async function loadLeadsPage(){
 
     }
 
-
     leads =
       data.leads.map(
         normalizeLead
       );
 
-
     renderLeadsTable();
 
-
     document
-      .getElementById(
-        "leadsError"
-      )
+      .getElementById("leadsError")
       .classList
       .add("hidden");
-
 
   }catch(error){
 
@@ -1457,7 +1373,6 @@ async function loadLeadsPage(){
       "Leads page error:",
       error
     );
-
 
     table.innerHTML = `
 
@@ -1473,19 +1388,13 @@ async function loadLeadsPage(){
 
     `;
 
-
     document
-      .getElementById(
-        "leadsError"
-      )
+      .getElementById("leadsError")
       .textContent =
         error.message;
 
-
     document
-      .getElementById(
-        "leadsError"
-      )
+      .getElementById("leadsError")
       .classList
       .remove("hidden");
 
@@ -1493,14 +1402,12 @@ async function loadLeadsPage(){
 
 }
 
-
 function renderLeadsTable(){
 
   const table =
     document.getElementById(
       "allLeadTable"
     );
-
 
   if(!leads.length){
 
@@ -1522,7 +1429,6 @@ function renderLeadsTable(){
     return;
 
   }
-
 
   table.innerHTML =
     leads.map(
@@ -1605,9 +1511,8 @@ function renderLeadsTable(){
 
 }
 
-
 /*
- * UPDATE STATUS IN D1
+ * UPDATE STATUS
  */
 
 async function changeLeadStatus(
@@ -1639,10 +1544,8 @@ async function changeLeadStatus(
         }
       );
 
-
     const data =
       await response.json();
-
 
     if(
       !response.ok ||
@@ -1656,16 +1559,12 @@ async function changeLeadStatus(
 
     }
 
-
     showToast(
       "Lead status saved"
     );
 
-
     await loadDashboard();
-
     await loadLeadsPage();
-
 
   }catch(error){
 
@@ -1674,19 +1573,16 @@ async function changeLeadStatus(
       error
     );
 
-
     alert(
       "Couldn't update the lead status.\n\n" +
       error.message
     );
-
 
     await loadLeadsPage();
 
   }
 
 }
-
 
 /*
  * VIEW LEAD DETAILS
@@ -1699,17 +1595,14 @@ async function viewLead(id){
       "leadDetails"
     );
 
-
   const content =
     document.getElementById(
       "leadDetailsContent"
     );
 
-
   container.classList.remove(
     "hidden"
   );
-
 
   content.innerHTML = `
 
@@ -1718,7 +1611,6 @@ async function viewLead(id){
     </div>
 
   `;
-
 
   try{
 
@@ -1729,10 +1621,8 @@ async function viewLead(id){
         id
       );
 
-
     const data =
       await response.json();
-
 
     if(
       !response.ok ||
@@ -1746,12 +1636,10 @@ async function viewLead(id){
 
     }
 
-
     const lead =
       normalizeLead(
         data.lead
       );
-
 
     content.innerHTML = `
 
@@ -1778,7 +1666,6 @@ async function viewLead(id){
 
       </div>
 
-
       <div class="detail-card">
 
         <h3>
@@ -1790,7 +1677,6 @@ async function viewLead(id){
         </p>
 
       </div>
-
 
       <div class="detail-card">
 
@@ -1825,7 +1711,6 @@ async function viewLead(id){
 
       </div>
 
-
       <div class="detail-card">
 
         <h3>
@@ -1854,7 +1739,6 @@ async function viewLead(id){
       behavior:"smooth"
     });
 
-
   }catch(error){
 
     content.innerHTML = `
@@ -1871,18 +1755,14 @@ async function viewLead(id){
 
 }
 
-
 function closeLeadDetails(){
 
   document
-    .getElementById(
-      "leadDetails"
-    )
+    .getElementById("leadDetails")
     .classList
     .add("hidden");
 
 }
-
 
 /*
  * CREATE / ANALYZE LEAD
@@ -1896,13 +1776,11 @@ async function analyzeLead(){
       .value
       .trim();
 
-
   const email =
     document
       .getElementById("email")
       .value
       .trim();
-
 
   const phone =
     document
@@ -1910,19 +1788,16 @@ async function analyzeLead(){
       .value
       .trim();
 
-
   const message =
     document
       .getElementById("message")
       .value
       .trim();
 
-
   const source =
     document
       .getElementById("source")
       .value;
-
 
   if(!name || !message){
 
@@ -1934,18 +1809,15 @@ async function analyzeLead(){
 
   }
 
-
   const button =
     document.getElementById(
       "analyzeButton"
     );
 
-
   button.disabled = true;
 
   button.textContent =
     "AI is analyzing...";
-
 
   try{
 
@@ -1976,6 +1848,10 @@ async function analyzeLead(){
               settings.services ||
               "",
 
+            tone:
+              settings.tone ||
+              "Professional and friendly",
+
             customerName:
               name,
 
@@ -1994,10 +1870,8 @@ async function analyzeLead(){
         }
       );
 
-
     const data =
       await response.json();
-
 
     if(
       !response.ok ||
@@ -2011,10 +1885,8 @@ async function analyzeLead(){
 
     }
 
-
     const a =
       data.analysis;
-
 
     const priority =
       ["HIGH","MEDIUM","LOW"]
@@ -2022,14 +1894,12 @@ async function analyzeLead(){
         ? a.priority
         : "MEDIUM";
 
-
     document
       .getElementById(
         "priorityBadge"
       )
       .textContent =
         priority;
-
 
     document
       .getElementById(
@@ -2039,7 +1909,6 @@ async function analyzeLead(){
         "badge " +
         priority.toLowerCase();
 
-
     document
       .getElementById(
         "category"
@@ -2047,7 +1916,6 @@ async function analyzeLead(){
       .textContent =
         a.category ||
         "Needs Review";
-
 
     document
       .getElementById(
@@ -2057,7 +1925,6 @@ async function analyzeLead(){
         a.recommendedAction ||
         "Review this lead manually.";
 
-
     document
       .getElementById(
         "leadScore"
@@ -2065,7 +1932,6 @@ async function analyzeLead(){
       .textContent =
         (a.score ?? 50) +
         "/100";
-
 
     document
       .getElementById(
@@ -2075,7 +1941,6 @@ async function analyzeLead(){
         a.summary ||
         "No summary available.";
 
-
     document
       .getElementById(
         "response"
@@ -2084,7 +1949,6 @@ async function analyzeLead(){
         a.suggestedReply ||
         "Thanks for reaching out. We've received your message and will get back to you shortly.";
 
-
     document
       .getElementById(
         "analysis"
@@ -2092,18 +1956,11 @@ async function analyzeLead(){
       .classList
       .remove("hidden");
 
-
     showToast(
       "Lead analyzed and saved"
     );
 
-
-    /*
-     * Refresh the dashboard data.
-     */
-
     await loadDashboard();
-
 
   }catch(error){
 
@@ -2112,12 +1969,10 @@ async function analyzeLead(){
       error
     );
 
-
     alert(
       "LeadFlow couldn't analyze the lead.\n\n" +
       error.message
     );
-
 
   }finally{
 
@@ -2130,7 +1985,6 @@ async function analyzeLead(){
 
 }
 
-
 /*
  * SETTINGS
  */
@@ -2139,64 +1993,45 @@ function saveSettings(){
 
   settings.businessName =
     document
-      .getElementById(
-        "businessName"
-      )
+      .getElementById("businessName")
       .value
       .trim();
-
 
   settings.businessType =
     document
-      .getElementById(
-        "businessType"
-      )
+      .getElementById("businessType")
       .value
       .trim();
-
 
   settings.services =
     document
-      .getElementById(
-        "services"
-      )
+      .getElementById("services")
       .value
       .trim();
 
-
   settings.tone =
     document
-      .getElementById(
-        "tone"
-      )
+      .getElementById("tone")
       .value;
-
 
   localStorage.setItem(
     "leadflow_settings",
     JSON.stringify(settings)
   );
 
-
   document
-    .getElementById(
-      "settingsSaved"
-    )
+    .getElementById("settingsSaved")
     .textContent =
       "Saved ✓";
-
 
   showToast(
     "Business settings saved"
   );
 
-
   setTimeout(() => {
 
     document
-      .getElementById(
-        "settingsSaved"
-      )
+      .getElementById("settingsSaved")
       .textContent =
         "";
 
@@ -2204,43 +2039,30 @@ function saveSettings(){
 
 }
 
-
 function loadSettings(){
 
   document
-    .getElementById(
-      "businessName"
-    )
+    .getElementById("businessName")
     .value =
       settings.businessName || "";
 
-
   document
-    .getElementById(
-      "businessType"
-    )
+    .getElementById("businessType")
     .value =
       settings.businessType || "";
 
-
   document
-    .getElementById(
-      "services"
-    )
+    .getElementById("services")
     .value =
       settings.services || "";
 
-
   document
-    .getElementById(
-      "tone"
-    )
+    .getElementById("tone")
     .value =
       settings.tone ||
       "Professional and friendly";
 
 }
-
 
 /*
  * COPY
@@ -2250,16 +2072,12 @@ function copyResponse(){
 
   const text =
     document
-      .getElementById(
-        "response"
-      )
+      .getElementById("response")
       .textContent;
-
 
   copyText(text);
 
 }
-
 
 function copyText(text){
 
@@ -2268,15 +2086,12 @@ function copyText(text){
     .then(() => {
 
       document
-        .getElementById(
-          "copied"
-        )
+        .getElementById("copied")
         ?.replaceChildren(
           document.createTextNode(
             "Copied!"
           )
         );
-
 
       showToast(
         "Response copied"
@@ -2292,7 +2107,6 @@ function copyText(text){
     });
 
 }
-
 
 /*
  * HELPERS
@@ -2367,7 +2181,6 @@ function normalizeLead(lead){
 
 }
 
-
 function priorityClass(priority){
 
   if(priority === "HIGH"){
@@ -2382,17 +2195,14 @@ function priorityClass(priority){
 
 }
 
-
 function formatDate(date){
 
   if(!date){
     return "";
   }
 
-
   const parsed =
     new Date(date);
-
 
   if(
     Number.isNaN(
@@ -2404,11 +2214,9 @@ function formatDate(date){
 
   }
 
-
   return parsed.toLocaleDateString();
 
 }
-
 
 function escapeHtml(value){
 
@@ -2421,7 +2229,6 @@ function escapeHtml(value){
 
 }
 
-
 function showToast(message){
 
   const toast =
@@ -2429,20 +2236,16 @@ function showToast(message){
       "toast"
     );
 
-
   toast.textContent =
     message;
-
 
   toast.classList.remove(
     "hidden"
   );
 
-
   clearTimeout(
     window.leadflowToastTimer
   );
-
 
   window.leadflowToastTimer =
     setTimeout(() => {
@@ -2455,13 +2258,11 @@ function showToast(message){
 
 }
 
-
 /*
  * START
  */
 
 loadSettings();
-
 loadDashboard();
 
 </script>
