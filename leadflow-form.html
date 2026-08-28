@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Contact Us</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: transparent;
+      color: #172033;
+    }
+
+    .leadflow-form {
+      max-width: 520px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid #e2e6ee;
+      border-radius: 14px;
+      padding: 25px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.06);
+    }
+
+    .leadflow-form h2 {
+      margin: 0 0 7px;
+      font-size: 25px;
+    }
+
+    .leadflow-form p {
+      margin: 0 0 22px;
+      color: #718096;
+      line-height: 1.5;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #dce1ea;
+      border-radius: 9px;
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #7c3aed;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 9px;
+      padding: 13px;
+      background: #7c3aed;
+      color: white;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #6d28d9;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 9px;
+      line-height: 1.5;
+    }
+
+    .success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .powered {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="leadflow-form">
+
+  <h2>Contact Us</h2>
+
+  <p>
+    Tell us what you need and we'll get back to you shortly.
+  </p>
+
+  <form id="leadForm">
+
+    <div class="field">
+      <label for="customerName">
+        Name *
+      </label>
+
+      <input
+        id="customerName"
+        name="customerName"
+        type="text"
+        placeholder="John Smith"
+        required
+      >
+    </div>
+
+
+    <div class="field">
+      <label for="customerEmail">
+        Email *
+      </label>
+
+      <input
+        id="customerEmail"
+        name="customerEmail"
+        type="email"
+        placeholder="john@example.com"
+        required
+      >
+    </div>
+
+
+    <div class="field">
+      <label for="customerPhone">
+        Phone
+      </label>
+
+      <input
+        id="customerPhone"
+        name="customerPhone"
+        type="tel"
+        placeholder="+1 555 123 4567"
+      >
+    </div>
+
+
+    <div class="field">
+      <label for="customerMessage">
+        How can we help? *
+      </label>
+
+      <textarea
+        id="customerMessage"
+        name="message"
+        placeholder="Tell us what you need..."
+        required
+      ></textarea>
+    </div>
+
+
+    <button
+      id="submitButton"
+      type="submit"
+    >
+      Send Request
+    </button>
+
+  </form>
+
+
+  <div
+    id="formMessage"
+    class="message"
+  ></div>
+
+
+  <div class="powered">
+    Powered by LeadFlow
+  </div>
+
+</div>
+
+
+<script>
+
+const LEADFLOW_API =
+  "https://llm-chat-app-template.leadflow67.workers.dev/api/lead";
+
+
+const BUSINESS_NAME =
+  "Demo Business";
+
+
+document
+  .getElementById("leadForm")
+  .addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+
+    const name =
+      document
+        .getElementById("customerName")
+        .value
+        .trim();
+
+
+    const email =
+      document
+        .getElementById("customerEmail")
+        .value
+        .trim();
+
+
+    const phone =
+      document
+        .getElementById("customerPhone")
+        .value
+        .trim();
+
+
+    const message =
+      document
+        .getElementById("customerMessage")
+        .value
+        .trim();
+
+
+    const button =
+      document
+        .getElementById("submitButton");
+
+
+    const formMessage =
+      document
+        .getElementById("formMessage");
+
+
+    if (!name || !email || !message) {
+      return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+      "Sending...";
+
+
+    formMessage.className =
+      "message";
+
+    formMessage.textContent =
+      "";
+
+
+    try {
+
+      const response =
+        await fetch(
+          LEADFLOW_API,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+              businessName:
+                BUSINESS_NAME,
+
+              customerName:
+                name,
+
+              customerEmail:
+                email,
+
+              customerPhone:
+                phone,
+
+              message:
+                message,
+
+              source:
+                "Website Form"
+
+            })
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+        throw new Error(
+          data.error ||
+          "Something went wrong."
+        );
+      }
+
+
+      formMessage.className =
+        "message success";
+
+
+      formMessage.textContent =
+        "Thanks! Your message has been received. We'll be in touch shortly.";
+
+
+      document
+        .getElementById("leadForm")
+        .reset();
+
+
+    } catch (error) {
+
+      console.error(
+        "LeadFlow form error:",
+        error
+      );
+
+
+      formMessage.className =
+        "message error";
+
+
+      formMessage.textContent =
+        "Sorry, we couldn't send your request. Please try again.";
+
+    } finally {
+
+      button.disabled = false;
+
+      button.textContent =
+        "Send Request";
+
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
