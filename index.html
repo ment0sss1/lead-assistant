@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,7 +47,8 @@ button{cursor:pointer}
   color:#aeb7c7;
 }
 
-.nav-item:hover,.nav-item.active{
+.nav-item:hover,
+.nav-item.active{
   background:#242b3b;
   color:white;
 }
@@ -82,7 +84,8 @@ button{cursor:pointer}
   gap:12px;
 }
 
-.primary-button,.secondary-button{
+.primary-button,
+.secondary-button{
   border:0;
   border-radius:9px;
   padding:11px 17px;
@@ -94,7 +97,9 @@ button{cursor:pointer}
   color:white;
 }
 
-.primary-button:hover{background:#6d28d9}
+.primary-button:hover{
+  background:#6d28d9;
+}
 
 .primary-button:disabled{
   opacity:.6;
@@ -119,9 +124,14 @@ button{cursor:pointer}
   margin-bottom:5px;
 }
 
-.page-title p,.muted{color:#718096}
+.page-title p,
+.muted{
+  color:#718096;
+}
 
-.small{font-size:13px}
+.small{
+  font-size:13px;
+}
 
 .stats{
   display:grid;
@@ -130,7 +140,8 @@ button{cursor:pointer}
   margin-bottom:22px;
 }
 
-.stat,.card{
+.stat,
+.card{
   background:white;
   border:1px solid #e4e8f0;
   border-radius:14px;
@@ -155,7 +166,9 @@ button{cursor:pointer}
   margin-bottom:18px;
 }
 
-.table-container{overflow-x:auto}
+.table-container{
+  overflow-x:auto;
+}
 
 table{
   width:100%;
@@ -182,7 +195,9 @@ td{
   gap:20px;
 }
 
-.form-grid .full{grid-column:1 / -1}
+.form-grid .full{
+  grid-column:1 / -1;
+}
 
 label{
   display:block;
@@ -191,7 +206,9 @@ label{
   margin-bottom:7px;
 }
 
-input,textarea,select{
+input,
+textarea,
+select{
   width:100%;
   border:1px solid #dce1ea;
   border-radius:9px;
@@ -200,7 +217,9 @@ input,textarea,select{
   background:white;
 }
 
-input:focus,textarea:focus,select:focus{
+input:focus,
+textarea:focus,
+select:focus{
   border-color:#8b5cf6;
 }
 
@@ -223,7 +242,10 @@ textarea{
   border-bottom:1px solid #edf0f5;
 }
 
-.analysis-row span:last-child{text-align:right}
+.analysis-row span:last-child{
+  text-align:right;
+  max-width:70%;
+}
 
 .badge{
   display:inline-block;
@@ -255,6 +277,7 @@ textarea{
   border-radius:10px;
   padding:16px;
   line-height:1.6;
+  white-space:pre-wrap;
 }
 
 .toolbar{
@@ -262,7 +285,9 @@ textarea{
   gap:12px;
 }
 
-.toolbar input{flex:1}
+.toolbar input{
+  flex:1;
+}
 
 .loading{
   text-align:center;
@@ -278,6 +303,26 @@ textarea{
   margin-bottom:18px;
 }
 
+.success-box{
+  background:#dcfce7;
+  color:#166534;
+  padding:14px;
+  border-radius:9px;
+  margin-bottom:18px;
+}
+
+.detail-card{
+  background:#f8fafc;
+  border:1px solid #e4e8f0;
+  border-radius:10px;
+  padding:16px;
+  margin-top:15px;
+}
+
+.detail-card h3{
+  margin-bottom:10px;
+}
+
 .toast{
   position:fixed;
   right:25px;
@@ -287,18 +332,33 @@ textarea{
   padding:13px 18px;
   border-radius:9px;
   box-shadow:0 10px 30px rgba(0,0,0,.2);
+  z-index:1000;
 }
 
 @media(max-width:800px){
-  .sidebar{width:190px}
+
+  .sidebar{
+    width:190px;
+  }
+
   .main{
     margin-left:190px;
     width:calc(100% - 190px);
     padding:20px;
   }
-  .stats{grid-template-columns:1fr 1fr}
-  .form-grid{grid-template-columns:1fr}
-  .form-grid .full{grid-column:auto}
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-grid .full{
+    grid-column:auto;
+  }
+
 }
 </style>
 </head>
@@ -385,6 +445,16 @@ textarea{
 
     </div>
 
+    <button class="secondary-button"
+            onclick="loadDashboard()">
+      ↻ Refresh
+    </button>
+
+  </div>
+
+
+  <div id="dashboardError"
+       class="error-box hidden">
   </div>
 
 
@@ -456,11 +526,6 @@ textarea{
     </div>
 
 
-    <div id="dashboardError"
-         class="error-box hidden">
-    </div>
-
-
     <div class="table-container">
 
       <table>
@@ -478,13 +543,6 @@ textarea{
         </thead>
 
         <tbody id="leadTable">
-
-          <tr>
-            <td colspan="5"
-                class="loading">
-              Loading leads...
-            </td>
-          </tr>
 
         </tbody>
 
@@ -719,7 +777,7 @@ textarea{
       <h1>Leads</h1>
 
       <p>
-        Search and review your lead history.
+        Search and manage your lead history.
       </p>
 
     </div>
@@ -742,13 +800,13 @@ textarea{
       <input
         id="leadSearch"
         placeholder="Search leads..."
-        oninput="renderLeads()"
+        oninput="loadLeadsPage()"
       >
 
 
       <select
         id="statusFilter"
-        onchange="renderLeads()">
+        onchange="loadLeadsPage()">
 
         <option value="ALL">
           All statuses
@@ -765,6 +823,11 @@ textarea{
 
 
     <br>
+
+
+    <div id="leadsError"
+         class="error-box hidden">
+    </div>
 
 
     <div class="table-container">
@@ -791,6 +854,30 @@ textarea{
 
       </table>
 
+    </div>
+
+  </div>
+
+
+  <div id="leadDetails"
+       class="card hidden"
+       style="margin-top:20px">
+
+    <div class="card-header">
+
+      <h2>
+        Lead Details
+      </h2>
+
+      <button class="secondary-button"
+              onclick="closeLeadDetails()">
+        Close
+      </button>
+
+    </div>
+
+
+    <div id="leadDetailsContent">
     </div>
 
   </div>
@@ -945,8 +1032,11 @@ let leads = [];
 
 let settings =
   JSON.parse(
-    localStorage.getItem("leadflow_settings") || "{}"
+    localStorage.getItem(
+      "leadflow_settings"
+    ) || "{}"
   );
+
 
 settings = {
 
@@ -964,7 +1054,7 @@ settings = {
 
 
 /*
- * Navigation
+ * NAVIGATION
  */
 
 function showPage(page){
@@ -973,7 +1063,9 @@ function showPage(page){
     .querySelectorAll("section")
     .forEach(section => {
 
-      section.classList.add("hidden");
+      section.classList.add(
+        "hidden"
+      );
 
     });
 
@@ -984,7 +1076,9 @@ function showPage(page){
 
   if(target){
 
-    target.classList.remove("hidden");
+    target.classList.remove(
+      "hidden"
+    );
 
   }
 
@@ -1003,14 +1097,14 @@ function showPage(page){
 
   if(page === "dashboard"){
 
-    loadLeads();
+    loadDashboard();
 
   }
 
 
   if(page === "leads"){
 
-    loadLeads();
+    loadLeadsPage();
 
   }
 
@@ -1025,500 +1119,152 @@ function showPage(page){
 
 
 /*
- * Load leads from D1
+ * DASHBOARD
  */
 
-async function loadLeads(){
-
-  const dashboardError =
-    document.getElementById(
-      "dashboardError"
-    );
-
+async function loadDashboard(){
 
   try{
 
-    const response =
+    const statsResponse =
       await fetch(
-        API_BASE + "/api/leads"
+        API_BASE + "/api/stats"
       );
 
 
-    if(!response.ok){
+    const statsData =
+      await statsResponse.json();
 
-      throw new Error(
-        "Server returned " +
-        response.status
-      );
+
+    if(
+      statsResponse.ok &&
+      statsData.success
+    ){
+
+      document
+        .getElementById(
+          "totalLeads"
+        )
+        .textContent =
+          statsData.stats.totalLeads;
+
+
+      document
+        .getElementById(
+          "newLeads"
+        )
+        .textContent =
+          statsData.stats.newLeads;
+
+
+      document
+        .getElementById(
+          "highPriority"
+        )
+        .textContent =
+          statsData.stats.highPriority;
+
+
+      document
+        .getElementById(
+          "conversionRate"
+        )
+        .textContent =
+          statsData.stats.conversionRate +
+          "%";
 
     }
 
 
-    const data =
-      await response.json();
+    await loadRecentLeads();
 
 
-    if(!data.success){
-
-      throw new Error(
-        data.error ||
-        "Could not load leads"
-      );
-
-    }
-
-
-    leads =
-      (data.leads || [])
-      .map(normalizeLead);
-
-
-    renderDashboard();
-
-    renderLeads();
-
-
-    dashboardError.classList.add(
-      "hidden"
-    );
+    document
+      .getElementById(
+        "dashboardError"
+      )
+      .classList
+      .add("hidden");
 
 
   }catch(error){
 
     console.error(
-      "Load leads error:",
+      "Dashboard error:",
       error
     );
 
 
-    /*
-     * Temporary fallback for old
-     * browser-stored leads.
-     */
-
-    leads =
-      JSON.parse(
-        localStorage.getItem(
-          "leadflow_leads"
-        ) || "[]"
-      );
-
-
-    renderDashboard();
-
-    renderLeads();
-
-
-    dashboardError.textContent =
-      "Couldn't reach the database. Showing locally saved leads instead.";
-
-    dashboardError.classList.remove(
-      "hidden"
-    );
-
-  }
-
-}
-
-
-/*
- * Convert D1 fields into the
- * format used by the UI.
- */
-
-function normalizeLead(lead){
-
-  return {
-
-    id:
-      lead.id,
-
-    name:
-      lead.customer_name ||
-      lead.customerName ||
-      "Unknown",
-
-    email:
-      lead.customer_email ||
-      lead.customerEmail ||
-      "",
-
-    phone:
-      lead.customer_phone ||
-      lead.customerPhone ||
-      "",
-
-    message:
-      lead.message ||
-      "",
-
-    source:
-      lead.source ||
-      "Website",
-
-    priority:
-      lead.priority ||
-      "MEDIUM",
-
-    category:
-      lead.category ||
-      "Needs Review",
-
-    summary:
-      lead.summary ||
-      "",
-
-    recommendedAction:
-      lead.recommended_action ||
-      lead.recommendedAction ||
-      "",
-
-    response:
-      lead.suggested_reply ||
-      lead.suggestedReply ||
-      "",
-
-    status:
-      lead.status ||
-      "New",
-
-    date:
-      formatDate(
-        lead.created_at
-      )
-
-  };
-
-}
-
-
-/*
- * AI lead analysis
- */
-
-async function analyzeLead(){
-
-  const name =
-    document
-      .getElementById("name")
-      .value
-      .trim();
-
-
-  const email =
-    document
-      .getElementById("email")
-      .value
-      .trim();
-
-
-  const phone =
-    document
-      .getElementById("phone")
-      .value
-      .trim();
-
-
-  const message =
-    document
-      .getElementById("message")
-      .value
-      .trim();
-
-
-  const source =
-    document
-      .getElementById("source")
-      .value;
-
-
-  if(!name || !message){
-
-    alert(
-      "Please enter the customer's name and message."
-    );
-
-    return;
-
-  }
-
-
-  const button =
-    document.getElementById(
-      "analyzeButton"
-    );
-
-
-  button.disabled = true;
-
-  button.textContent =
-    "AI is analyzing...";
-
-
-  try{
-
-    const response =
-      await fetch(
-        API_BASE + "/api/lead",
-        {
-
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body: JSON.stringify({
-
-            businessName:
-              settings.businessName ||
-              "Unknown Business",
-
-            customerName:
-              name,
-
-            customerEmail:
-              email,
-
-            customerPhone:
-              phone,
-
-            message:
-              message,
-
-            source:
-              source
-
-          })
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if(!response.ok){
-
-      throw new Error(
-        data.error ||
-        "Server error"
-      );
-
-    }
-
-
-    if(
-      !data.success ||
-      !data.analysis
-    ){
-
-      throw new Error(
-        "Invalid AI response"
-      );
-
-    }
-
-
-    const a =
-      data.analysis;
-
-
-    const priority =
-      ["HIGH","MEDIUM","LOW"]
-        .includes(a.priority)
-        ? a.priority
-        : "MEDIUM";
-
-
     document
       .getElementById(
-        "priorityBadge"
+        "dashboardError"
       )
       .textContent =
-        priority;
-
-
-    document
-      .getElementById(
-        "priorityBadge"
-      )
-      .className =
-        "badge " +
-        priority.toLowerCase();
-
+        "Unable to load dashboard data. Please refresh.";
 
     document
       .getElementById(
-        "category"
-      )
-      .textContent =
-        a.category ||
-        "Needs Review";
-
-
-    document
-      .getElementById(
-        "recommendedAction"
-      )
-      .textContent =
-        a.recommendedAction ||
-        "Review this lead manually.";
-
-
-    document
-      .getElementById(
-        "leadScore"
-      )
-      .textContent =
-        (a.score ?? 50) +
-        "/100";
-
-
-    document
-      .getElementById(
-        "leadSummary"
-      )
-      .textContent =
-        a.summary ||
-        "No summary available.";
-
-
-    const reply =
-      a.suggestedReply ||
-      "Thanks for reaching out. We've received your message and will get back to you shortly.";
-
-
-    document
-      .getElementById(
-        "response"
-      )
-      .textContent =
-        reply;
-
-
-    document
-      .getElementById(
-        "analysis"
+        "dashboardError"
       )
       .classList
       .remove("hidden");
 
-
-    /*
-     * Refresh from D1.
-     */
-
-    await loadLeads();
-
-
-    showToast(
-      "Lead analyzed and saved to D1"
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "Analyze error:",
-      error
-    );
-
-
-    alert(
-      "LeadFlow couldn't connect to the AI. Please try again.\n\n" +
-      error.message
-    );
-
-
-  }finally{
-
-    button.disabled = false;
-
-    button.textContent =
-      "Analyze Lead";
-
   }
 
 }
 
 
-/*
- * Dashboard
- */
-
-function renderDashboard(){
-
-  const total =
-    leads.length;
-
-
-  const newCount =
-    leads.filter(
-      lead =>
-        lead.status === "New"
-    ).length;
-
-
-  const high =
-    leads.filter(
-      lead =>
-        lead.priority === "HIGH"
-    ).length;
-
-
-  const won =
-    leads.filter(
-      lead =>
-        lead.status === "Won"
-    ).length;
-
-
-  const conversion =
-    total
-      ? Math.round(
-          (won / total) * 100
-        )
-      : 0;
-
-
-  document
-    .getElementById(
-      "totalLeads"
-    )
-    .textContent =
-      total;
-
-
-  document
-    .getElementById(
-      "newLeads"
-    )
-    .textContent =
-      newCount;
-
-
-  document
-    .getElementById(
-      "highPriority"
-    )
-    .textContent =
-      high;
-
-
-  document
-    .getElementById(
-      "conversionRate"
-    )
-    .textContent =
-      conversion + "%";
-
+async function loadRecentLeads(){
 
   const table =
     document.getElementById(
       "leadTable"
+    );
+
+
+  table.innerHTML = `
+
+    <tr>
+
+      <td colspan="5"
+          class="loading">
+
+        Loading leads...
+
+      </td>
+
+    </tr>
+
+  `;
+
+
+  const response =
+    await fetch(
+      API_BASE +
+      "/api/leads"
+    );
+
+
+  const data =
+    await response.json();
+
+
+  if(
+    !response.ok ||
+    !data.success
+  ){
+
+    throw new Error(
+      data.error ||
+      "Failed to load leads"
+    );
+
+  }
+
+
+  leads =
+    data.leads.map(
+      normalizeLead
     );
 
 
@@ -1589,10 +1335,10 @@ function renderDashboard(){
 
 
 /*
- * Full Leads page
+ * LOAD LEADS PAGE
  */
 
-function renderLeads(){
+async function loadLeadsPage(){
 
   const table =
     document.getElementById(
@@ -1600,59 +1346,163 @@ function renderLeads(){
     );
 
 
-  if(!table){
-    return;
-  }
-
-
   const search =
-    (
-      document.getElementById(
-        "leadSearch"
-      )?.value || ""
-    )
-    .toLowerCase();
+    document.getElementById(
+      "leadSearch"
+    ).value.trim();
 
 
-  const filter =
+  const status =
     document.getElementById(
       "statusFilter"
-    )?.value || "ALL";
+    ).value;
 
 
-  const filtered =
-    leads.filter(lead => {
+  table.innerHTML = `
 
-      const matchesSearch =
-        !search ||
+    <tr>
 
-        lead.name
-          .toLowerCase()
-          .includes(search) ||
+      <td colspan="6"
+          class="loading">
 
-        lead.email
-          .toLowerCase()
-          .includes(search) ||
+        Loading leads...
 
-        lead.message
-          .toLowerCase()
-          .includes(search);
+      </td>
+
+    </tr>
+
+  `;
 
 
-      const matchesStatus =
-        filter === "ALL" ||
-        lead.status === filter;
+  try{
+
+    const params =
+      new URLSearchParams();
 
 
-      return (
-        matchesSearch &&
-        matchesStatus
+    if(
+      status &&
+      status !== "ALL"
+    ){
+
+      params.set(
+        "status",
+        status
       );
 
-    });
+    }
 
 
-  if(!filtered.length){
+    if(search){
+
+      params.set(
+        "search",
+        search
+      );
+
+    }
+
+
+    const query =
+      params.toString()
+        ? "?" + params.toString()
+        : "";
+
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/api/leads" +
+        query
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      throw new Error(
+        data.error ||
+        "Failed to load leads"
+      );
+
+    }
+
+
+    leads =
+      data.leads.map(
+        normalizeLead
+      );
+
+
+    renderLeadsTable();
+
+
+    document
+      .getElementById(
+        "leadsError"
+      )
+      .classList
+      .add("hidden");
+
+
+  }catch(error){
+
+    console.error(
+      "Leads page error:",
+      error
+    );
+
+
+    table.innerHTML = `
+
+      <tr>
+
+        <td colspan="6">
+
+          Unable to load leads.
+
+        </td>
+
+      </tr>
+
+    `;
+
+
+    document
+      .getElementById(
+        "leadsError"
+      )
+      .textContent =
+        error.message;
+
+
+    document
+      .getElementById(
+        "leadsError"
+      )
+      .classList
+      .remove("hidden");
+
+  }
+
+}
+
+
+function renderLeadsTable(){
+
+  const table =
+    document.getElementById(
+      "allLeadTable"
+    );
+
+
+  if(!leads.length){
 
     table.innerHTML = `
 
@@ -1675,7 +1525,7 @@ function renderLeads(){
 
 
   table.innerHTML =
-    filtered.map(
+    leads.map(
       lead => `
 
         <tr>
@@ -1703,21 +1553,30 @@ function renderLeads(){
             <select
               onchange="changeLeadStatus(${Number(lead.id)}, this.value)">
 
-              ${["New","Contacted","Won","Lost"]
-                .map(
-                  status => `
+              ${[
+                "New",
+                "Contacted",
+                "Won",
+                "Lost"
+              ]
+              .map(
+                status => `
 
-                    <option
-                      value="${status}"
-                      ${status === lead.status ? "selected" : ""}>
+                  <option
+                    value="${status}"
+                    ${
+                      status === lead.status
+                        ? "selected"
+                        : ""
+                    }>
 
-                      ${status}
+                    ${status}
 
-                    </option>
+                  </option>
 
-                  `
-                )
-                .join("")}
+                `
+              )
+              .join("")}
 
             </select>
 
@@ -1748,99 +1607,532 @@ function renderLeads(){
 
 
 /*
- * Change status.
- *
- * We currently update the local
- * display. The next backend step
- * will make this permanent in D1.
+ * UPDATE STATUS IN D1
  */
 
-function changeLeadStatus(
+async function changeLeadStatus(
   id,
   status
 ){
 
-  const lead =
-    leads.find(
-      item =>
-        Number(item.id) ===
-        Number(id)
+  try{
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/api/leads/" +
+        id +
+        "/status",
+        {
+
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+            status
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      throw new Error(
+        data.error ||
+        "Failed to update status"
+      );
+
+    }
+
+
+    showToast(
+      "Lead status saved"
     );
 
 
-  if(!lead){
-    return;
+    await loadDashboard();
+
+    await loadLeadsPage();
+
+
+  }catch(error){
+
+    console.error(
+      "Status update error:",
+      error
+    );
+
+
+    alert(
+      "Couldn't update the lead status.\n\n" +
+      error.message
+    );
+
+
+    await loadLeadsPage();
+
   }
-
-
-  lead.status =
-    status;
-
-
-  renderLeads();
-
-  renderDashboard();
-
-
-  showToast(
-    "Status updated"
-  );
 
 }
 
 
 /*
- * View a lead
+ * VIEW LEAD DETAILS
  */
 
-function viewLead(id){
+async function viewLead(id){
 
-  const lead =
-    leads.find(
-      item =>
-        Number(item.id) ===
-        Number(id)
+  const container =
+    document.getElementById(
+      "leadDetails"
     );
 
 
-  if(!lead){
-    return;
+  const content =
+    document.getElementById(
+      "leadDetailsContent"
+    );
+
+
+  container.classList.remove(
+    "hidden"
+  );
+
+
+  content.innerHTML = `
+
+    <div class="loading">
+      Loading lead...
+    </div>
+
+  `;
+
+
+  try{
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/api/leads/" +
+        id
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      throw new Error(
+        data.error ||
+        "Lead not found"
+      );
+
+    }
+
+
+    const lead =
+      normalizeLead(
+        data.lead
+      );
+
+
+    content.innerHTML = `
+
+      <div class="detail-card">
+
+        <h3>
+          Customer
+        </h3>
+
+        <p>
+          <strong>Name:</strong>
+          ${escapeHtml(lead.name)}
+        </p>
+
+        <p>
+          <strong>Email:</strong>
+          ${escapeHtml(lead.email || "Not provided")}
+        </p>
+
+        <p>
+          <strong>Phone:</strong>
+          ${escapeHtml(lead.phone || "Not provided")}
+        </p>
+
+      </div>
+
+
+      <div class="detail-card">
+
+        <h3>
+          Customer Inquiry
+        </h3>
+
+        <p>
+          ${escapeHtml(lead.message)}
+        </p>
+
+      </div>
+
+
+      <div class="detail-card">
+
+        <h3>
+          AI Analysis
+        </h3>
+
+        <p>
+          <strong>Score:</strong>
+          ${escapeHtml(lead.score)}/100
+        </p>
+
+        <p>
+          <strong>Priority:</strong>
+          ${escapeHtml(lead.priority)}
+        </p>
+
+        <p>
+          <strong>Category:</strong>
+          ${escapeHtml(lead.category)}
+        </p>
+
+        <p>
+          <strong>Summary:</strong>
+          ${escapeHtml(lead.summary)}
+        </p>
+
+        <p>
+          <strong>Recommended Action:</strong>
+          ${escapeHtml(lead.recommendedAction)}
+        </p>
+
+      </div>
+
+
+      <div class="detail-card">
+
+        <h3>
+          Suggested Reply
+        </h3>
+
+        <div class="response">
+          ${escapeHtml(lead.response)}
+        </div>
+
+        <br>
+
+        <button
+          class="primary-button"
+          onclick="copyText(${JSON.stringify(lead.response)})">
+
+          Copy Response
+
+        </button>
+
+      </div>
+
+    `;
+
+    container.scrollIntoView({
+      behavior:"smooth"
+    });
+
+
+  }catch(error){
+
+    content.innerHTML = `
+
+      <div class="error-box">
+
+        ${escapeHtml(error.message)}
+
+      </div>
+
+    `;
+
   }
 
+}
 
-  alert(
 
-    "Customer: " +
-    lead.name +
+function closeLeadDetails(){
 
-    "\n\nEmail: " +
-    (lead.email || "None") +
-
-    "\n\nPhone: " +
-    (lead.phone || "None") +
-
-    "\n\nMessage:\n" +
-    lead.message +
-
-    "\n\nPriority: " +
-    lead.priority +
-
-    "\nCategory: " +
-    lead.category +
-
-    "\n\nAI Summary:\n" +
-    (lead.summary || "None") +
-
-    "\n\nSuggested Response:\n" +
-    lead.response
-
-  );
+  document
+    .getElementById(
+      "leadDetails"
+    )
+    .classList
+    .add("hidden");
 
 }
 
 
 /*
- * Settings
+ * CREATE / ANALYZE LEAD
+ */
+
+async function analyzeLead(){
+
+  const name =
+    document
+      .getElementById("name")
+      .value
+      .trim();
+
+
+  const email =
+    document
+      .getElementById("email")
+      .value
+      .trim();
+
+
+  const phone =
+    document
+      .getElementById("phone")
+      .value
+      .trim();
+
+
+  const message =
+    document
+      .getElementById("message")
+      .value
+      .trim();
+
+
+  const source =
+    document
+      .getElementById("source")
+      .value;
+
+
+  if(!name || !message){
+
+    alert(
+      "Please enter the customer's name and message."
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      "analyzeButton"
+    );
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "AI is analyzing...";
+
+
+  try{
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/api/lead",
+        {
+
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+
+            businessName:
+              settings.businessName ||
+              "Unknown Business",
+
+            businessType:
+              settings.businessType ||
+              "",
+
+            services:
+              settings.services ||
+              "",
+
+            customerName:
+              name,
+
+            customerEmail:
+              email,
+
+            customerPhone:
+              phone,
+
+            message,
+
+            source
+
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      throw new Error(
+        data.error ||
+        "Failed to analyze lead"
+      );
+
+    }
+
+
+    const a =
+      data.analysis;
+
+
+    const priority =
+      ["HIGH","MEDIUM","LOW"]
+        .includes(a.priority)
+        ? a.priority
+        : "MEDIUM";
+
+
+    document
+      .getElementById(
+        "priorityBadge"
+      )
+      .textContent =
+        priority;
+
+
+    document
+      .getElementById(
+        "priorityBadge"
+      )
+      .className =
+        "badge " +
+        priority.toLowerCase();
+
+
+    document
+      .getElementById(
+        "category"
+      )
+      .textContent =
+        a.category ||
+        "Needs Review";
+
+
+    document
+      .getElementById(
+        "recommendedAction"
+      )
+      .textContent =
+        a.recommendedAction ||
+        "Review this lead manually.";
+
+
+    document
+      .getElementById(
+        "leadScore"
+      )
+      .textContent =
+        (a.score ?? 50) +
+        "/100";
+
+
+    document
+      .getElementById(
+        "leadSummary"
+      )
+      .textContent =
+        a.summary ||
+        "No summary available.";
+
+
+    document
+      .getElementById(
+        "response"
+      )
+      .textContent =
+        a.suggestedReply ||
+        "Thanks for reaching out. We've received your message and will get back to you shortly.";
+
+
+    document
+      .getElementById(
+        "analysis"
+      )
+      .classList
+      .remove("hidden");
+
+
+    showToast(
+      "Lead analyzed and saved"
+    );
+
+
+    /*
+     * Refresh the dashboard data.
+     */
+
+    await loadDashboard();
+
+
+  }catch(error){
+
+    console.error(
+      "Analyze error:",
+      error
+    );
+
+
+    alert(
+      "LeadFlow couldn't analyze the lead.\n\n" +
+      error.message
+    );
+
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent =
+      "Analyze Lead";
+
+  }
+
+}
+
+
+/*
+ * SETTINGS
  */
 
 function saveSettings(){
@@ -1951,12 +2243,12 @@ function loadSettings(){
 
 
 /*
- * Copy response
+ * COPY
  */
 
 function copyResponse(){
 
-  const response =
+  const text =
     document
       .getElementById(
         "response"
@@ -1964,31 +2256,33 @@ function copyResponse(){
       .textContent;
 
 
+  copyText(text);
+
+}
+
+
+function copyText(text){
+
   navigator.clipboard
-    .writeText(response)
+    .writeText(text)
     .then(() => {
 
       document
         .getElementById(
           "copied"
         )
-        .textContent =
-          "Copied!";
-
-
-      setTimeout(() => {
-
-        document
-          .getElementById(
-            "copied"
+        ?.replaceChildren(
+          document.createTextNode(
+            "Copied!"
           )
-          .textContent =
-            "";
+        );
 
-      },2000);
+
+      showToast(
+        "Response copied"
+      );
 
     })
-
     .catch(() => {
 
       alert(
@@ -2001,8 +2295,78 @@ function copyResponse(){
 
 
 /*
- * Helpers
+ * HELPERS
  */
+
+function normalizeLead(lead){
+
+  return {
+
+    id:
+      lead.id,
+
+    name:
+      lead.customer_name ||
+      lead.customerName ||
+      "Unknown",
+
+    email:
+      lead.customer_email ||
+      lead.customerEmail ||
+      "",
+
+    phone:
+      lead.customer_phone ||
+      lead.customerPhone ||
+      "",
+
+    message:
+      lead.message ||
+      "",
+
+    source:
+      lead.source ||
+      "Website",
+
+    score:
+      lead.score ??
+      50,
+
+    priority:
+      lead.priority ||
+      "MEDIUM",
+
+    category:
+      lead.category ||
+      "Needs Review",
+
+    summary:
+      lead.summary ||
+      "",
+
+    recommendedAction:
+      lead.recommended_action ||
+      lead.recommendedAction ||
+      "",
+
+    response:
+      lead.suggested_reply ||
+      lead.suggestedReply ||
+      "",
+
+    status:
+      lead.status ||
+      "New",
+
+    date:
+      formatDate(
+        lead.created_at
+      )
+
+  };
+
+}
+
 
 function priorityClass(priority){
 
@@ -2058,15 +2422,50 @@ function escapeHtml(value){
 }
 
 
+function showToast(message){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent =
+    message;
+
+
+  toast.classList.remove(
+    "hidden"
+  );
+
+
+  clearTimeout(
+    window.leadflowToastTimer
+  );
+
+
+  window.leadflowToastTimer =
+    setTimeout(() => {
+
+      toast.classList.add(
+        "hidden"
+      );
+
+    },3000);
+
+}
+
+
 /*
- * Start application
+ * START
  */
 
 loadSettings();
 
-loadLeads();
+loadDashboard();
 
 </script>
 
 </body>
 </html>
+```
