@@ -1,5 +1,5 @@
-```html
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -62,6 +62,7 @@ button{
   border-radius:9px;
   margin-bottom:6px;
   color:#aeb7c7;
+  user-select:none;
 }
 
 .nav-item:hover,
@@ -129,11 +130,16 @@ button{
   color:#293246;
 }
 
+.secondary-button:hover{
+  background:#f8fafc;
+}
+
 .topbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:22px;
+  gap:15px;
 }
 
 .page-title h1{
@@ -181,6 +187,7 @@ button{
   justify-content:space-between;
   align-items:center;
   margin-bottom:18px;
+  gap:15px;
 }
 
 .table-container{
@@ -238,6 +245,7 @@ input:focus,
 textarea:focus,
 select:focus{
   border-color:#8b5cf6;
+  box-shadow:0 0 0 3px rgba(139,92,246,.08);
 }
 
 textarea{
@@ -287,7 +295,33 @@ textarea{
   color:#166534;
 }
 
-/* LEAD SEARCH TOOLBAR */
+.status-badge{
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.status-new{
+  background:#ede9fe;
+  color:#6d28d9;
+}
+
+.status-contacted{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.status-won{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.status-lost{
+  background:#fee2e2;
+  color:#991b1b;
+}
 
 .toolbar{
   display:flex;
@@ -351,6 +385,11 @@ textarea{
   margin-bottom:10px;
 }
 
+.detail-card p{
+  margin:8px 0;
+  line-height:1.55;
+}
+
 .toast{
   position:fixed;
   right:25px;
@@ -363,7 +402,12 @@ textarea{
   z-index:1000;
 }
 
-@media(max-width:800px){
+.api-status{
+  font-size:12px;
+  margin-top:8px;
+}
+
+@media(max-width:900px){
 
   .sidebar{
     width:190px;
@@ -373,6 +417,34 @@ textarea{
     margin-left:190px;
     width:calc(100% - 190px);
     padding:20px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:650px){
+
+  .sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+    padding:15px;
+  }
+
+  .app{
+    display:block;
+  }
+
+  .logo{
+    padding:8px 12px 15px;
+  }
+
+  .main{
+    margin-left:0;
+    width:100%;
+    padding:15px;
   }
 
   .stats{
@@ -396,8 +468,18 @@ textarea{
   .toolbar select{
     width:100%;
   }
+
+  .hero h2{
+    font-size:27px;
+  }
+
+  .topbar{
+    align-items:flex-start;
+    flex-direction:column;
+  }
 }
 </style>
+
 </head>
 
 <body>
@@ -442,48 +524,56 @@ textarea{
 
   <div class="hero">
 
-    <h2>
-      Turn inquiries into customers faster.
-    </h2>
+```
+<h2>
+  Turn inquiries into customers faster.
+</h2>
 
-    <p>
-      LeadFlow helps small businesses understand incoming leads,
-      prioritize the best opportunities, and create personalized
-      replies in seconds.
-    </p>
+<p>
+  LeadFlow helps small businesses understand incoming leads,
+  prioritize the best opportunities, and create personalized
+  replies in seconds.
+</p>
 
-    <div class="hero-actions">
+<div class="hero-actions">
 
-      <button class="primary-button"
-              onclick="showPage('newLead')">
-        ＋ Analyze a lead
-      </button>
+  <button class="primary-button"
+          onclick="showPage('newLead')">
+    ＋ Analyze a lead
+  </button>
 
-      <button class="secondary-button"
-              onclick="showPage('settings')">
-        Set up business
-      </button>
+  <button class="secondary-button"
+          onclick="showPage('settings')">
+    Set up business
+  </button>
 
-    </div>
+</div>
+```
 
   </div>
 
   <div class="topbar">
 
-    <div class="page-title">
+```
+<div class="page-title">
 
-      <h1>Dashboard</h1>
+  <h1>Dashboard</h1>
 
-      <p>
-        Your lead pipeline at a glance.
-      </p>
+  <p>
+    Your lead pipeline at a glance.
+  </p>
 
-    </div>
+  <div class="api-status muted">
+    Connected to LeadFlow AI
+  </div>
 
-    <button class="secondary-button"
-            onclick="loadDashboard()">
-      ↻ Refresh
-    </button>
+</div>
+
+<button class="secondary-button"
+        onclick="loadDashboard()">
+  ↻ Refresh
+</button>
+```
 
   </div>
 
@@ -493,89 +583,93 @@ textarea{
 
   <div class="stats">
 
-    <div class="stat">
-      <div class="stat-label">
-        Total Leads
-      </div>
+```
+<div class="stat">
+  <div class="stat-label">
+    Total Leads
+  </div>
 
-      <div class="stat-number"
-           id="totalLeads">
-        0
-      </div>
-    </div>
+  <div class="stat-number"
+       id="totalLeads">
+    0
+  </div>
+</div>
 
-    <div class="stat">
-      <div class="stat-label">
-        New Leads
-      </div>
+<div class="stat">
+  <div class="stat-label">
+    New Leads
+  </div>
 
-      <div class="stat-number"
-           id="newLeads">
-        0
-      </div>
-    </div>
+  <div class="stat-number"
+       id="newLeads">
+    0
+  </div>
+</div>
 
-    <div class="stat">
-      <div class="stat-label">
-        High Priority
-      </div>
+<div class="stat">
+  <div class="stat-label">
+    High Priority
+  </div>
 
-      <div class="stat-number"
-           id="highPriority">
-        0
-      </div>
-    </div>
+  <div class="stat-number"
+       id="highPriority">
+    0
+  </div>
+</div>
 
-    <div class="stat">
-      <div class="stat-label">
-        Conversion Rate
-      </div>
+<div class="stat">
+  <div class="stat-label">
+    Conversion Rate
+  </div>
 
-      <div class="stat-number"
-           id="conversionRate">
-        0%
-      </div>
-    </div>
+  <div class="stat-number"
+       id="conversionRate">
+    0%
+  </div>
+</div>
+```
 
   </div>
 
   <div class="card">
 
-    <div class="card-header">
+```
+<div class="card-header">
 
-      <h2>
-        Recent Leads
-      </h2>
+  <h2>
+    Recent Leads
+  </h2>
 
-      <button class="secondary-button"
-              onclick="showPage('newLead')">
-        Add Lead
-      </button>
+  <button class="secondary-button"
+          onclick="showPage('newLead')">
+    Add Lead
+  </button>
 
-    </div>
+</div>
 
-    <div class="table-container">
+<div class="table-container">
 
-      <table>
+  <table>
 
-        <thead>
+    <thead>
 
-          <tr>
-            <th>NAME</th>
-            <th>EMAIL</th>
-            <th>PRIORITY</th>
-            <th>STATUS</th>
-            <th>DATE</th>
-          </tr>
+      <tr>
+        <th>NAME</th>
+        <th>EMAIL</th>
+        <th>PRIORITY</th>
+        <th>STATUS</th>
+        <th>DATE</th>
+      </tr>
 
-        </thead>
+    </thead>
 
-        <tbody id="leadTable">
-        </tbody>
+    <tbody id="leadTable">
+    </tbody>
 
-      </table>
+  </table>
 
-    </div>
+</div>
+```
 
   </div>
 
@@ -585,190 +679,227 @@ textarea{
 
   <div class="topbar">
 
-    <div class="page-title">
+```
+<div class="page-title">
 
-      <h1>New Lead</h1>
+  <h1>New Lead</h1>
 
-      <p>
-        Analyze a customer inquiry and create a personalized response.
-      </p>
+  <p>
+    Analyze a customer inquiry and create a personalized response.
+  </p>
 
-    </div>
+</div>
 
-    <button class="secondary-button"
-            onclick="showPage('dashboard')">
-      Back
-    </button>
+<button class="secondary-button"
+        onclick="showPage('dashboard')">
+  Back
+</button>
+```
 
   </div>
 
   <div class="card">
 
-    <div class="form-grid">
+```
+<div class="form-grid">
 
-      <div>
+  <div>
 
-        <label>
-          Customer Name
-        </label>
+    <label>
+      Customer Name
+    </label>
 
-        <input id="name"
-               placeholder="John Smith">
+    <input id="name"
+           placeholder="John Smith"
+           maxlength="200">
 
-      </div>
+  </div>
 
-      <div>
+  <div>
 
-        <label>
-          Email
-        </label>
+    <label>
+      Email
+    </label>
 
-        <input id="email"
-               type="email"
-               placeholder="john@example.com">
+    <input id="email"
+           type="email"
+           placeholder="john@example.com"
+           maxlength="320">
 
-      </div>
+  </div>
 
-      <div>
+  <div>
 
-        <label>
-          Phone
-        </label>
+    <label>
+      Phone
+    </label>
 
-        <input id="phone"
-               type="tel"
-               placeholder="+1 555 123 4567">
+    <input id="phone"
+           type="tel"
+           placeholder="+1 555 123 4567"
+           maxlength="100">
 
-      </div>
+  </div>
 
-      <div>
+  <div>
 
-        <label>
-          Lead Source
-        </label>
+    <label>
+      Lead Source
+    </label>
 
-        <select id="source">
+    <select id="source">
 
-          <option>Website</option>
-          <option>Email</option>
-          <option>Facebook</option>
-          <option>Instagram</option>
-          <option>Phone</option>
-          <option>Other</option>
+      <option>Website</option>
+      <option>Email</option>
+      <option>Facebook</option>
+      <option>Instagram</option>
+      <option>Phone</option>
+      <option>Other</option>
 
-        </select>
+    </select>
 
-      </div>
+  </div>
 
-      <div class="full">
+  <div class="full">
 
-        <label>
-          Customer Message
-        </label>
+    <label>
+      Customer Message
+    </label>
 
-        <textarea
-          id="message"
-          placeholder="I'm interested in getting a quote for..."
-        ></textarea>
+    <textarea
+      id="message"
+      maxlength="10000"
+      placeholder="I'm interested in getting a quote for..."></textarea>
 
-      </div>
+  </div>
 
-    </div>
+</div>
 
-    <br>
+<br>
 
-    <button class="primary-button"
-            id="analyzeButton"
-            onclick="analyzeLead()">
+<button class="primary-button"
+        id="analyzeButton"
+        onclick="analyzeLead()">
 
-      Analyze Lead
+  Analyze Lead
 
-    </button>
+</button>
 
-    <div id="analysis"
-         class="analysis hidden">
+<div id="analysis"
+     class="analysis hidden">
 
-      <h2 style="margin-bottom:15px">
-        Lead Analysis
-      </h2>
+  <h2 style="margin-bottom:15px">
+    Lead Analysis
+  </h2>
 
-      <div class="analysis-row">
+  <div class="analysis-row">
 
-        <strong>
-          Priority
-        </strong>
+    <strong>
+      Priority
+    </strong>
 
-        <span id="priorityBadge"
-              class="badge high">
-          HIGH
-        </span>
+    <span id="priorityBadge"
+          class="badge medium">
+      MEDIUM
+    </span>
 
-      </div>
+  </div>
 
-      <div class="analysis-row">
+  <div class="analysis-row">
 
-        <strong>
-          Category
-        </strong>
+    <strong>
+      Lead Score
+    </strong>
 
-        <span id="category"></span>
+    <span id="leadScore">
+      —
+    </span>
 
-      </div>
+  </div>
 
-      <div class="analysis-row">
+  <div class="analysis-row">
 
-        <strong>
-          Recommended Action
-        </strong>
+    <strong>
+      Category
+    </strong>
 
-        <span id="recommendedAction"></span>
+    <span id="category">
+      —
+    </span>
 
-      </div>
+  </div>
 
-      <div class="analysis-row">
+  <div class="analysis-row">
 
-        <strong>
-          Lead Score
-        </strong>
+    <strong>
+      Recommended Action
+    </strong>
 
-        <span id="leadScore"></span>
+    <span id="recommendedAction">
+      —
+    </span>
 
-      </div>
+  </div>
 
-      <div class="analysis-row">
+  <div class="analysis-row">
 
-        <strong>
-          AI Summary
-        </strong>
+    <strong>
+      Follow-up Timing
+    </strong>
 
-        <span id="leadSummary"></span>
+    <span id="followUpTiming">
+      —
+    </span>
 
-      </div>
+  </div>
 
-      <br>
+  <div class="analysis-row">
 
-      <strong>
-        Suggested Response
-      </strong>
+    <strong>
+      AI Summary
+    </strong>
 
-      <div id="response"
-           class="response">
-      </div>
+    <span id="leadSummary">
+      —
+    </span>
 
-      <br>
+  </div>
 
-      <button class="primary-button"
-              onclick="copyResponse()">
+  <br>
 
-        Copy Response
+  <strong>
+    Suggested Response
+  </strong>
 
-      </button>
+  <div id="response"
+       class="response">
+  </div>
 
-      <span id="copied"
-            class="muted">
-      </span>
+  <br>
 
-    </div>
+  <strong>
+    Follow-up Message
+  </strong>
+
+  <div id="followUpMessage"
+       class="response">
+  </div>
+
+  <br>
+
+  <button class="primary-button"
+          onclick="copyResponse()">
+
+    Copy Response
+
+  </button>
+
+  <span id="copied"
+        class="muted">
+  </span>
+
+</div>
+```
 
   </div>
 
@@ -778,81 +909,84 @@ textarea{
 
   <div class="topbar">
 
-    <div class="page-title">
+```
+<div class="page-title">
 
-      <h1>Leads</h1>
+  <h1>Leads</h1>
 
-      <p>
-        Search and manage your lead history.
-      </p>
+  <p>
+    Search and manage your lead history.
+  </p>
 
-    </div>
+</div>
 
-    <button class="primary-button"
-            onclick="showPage('newLead')">
+<button class="primary-button"
+        onclick="showPage('newLead')">
 
-      ＋ New Lead
+  ＋ New Lead
 
-    </button>
+</button>
+```
 
   </div>
 
   <div class="card">
 
-    <div class="toolbar">
+```
+<div class="toolbar">
 
-      <input
-        id="leadSearch"
-        placeholder="Search by name, email, phone, or message..."
-        oninput="loadLeadsPage()"
-      >
+  <input
+    id="leadSearch"
+    placeholder="Search by name, email, phone, or message..."
+    oninput="debouncedLoadLeadsPage()">
 
-      <select
-        id="statusFilter"
-        onchange="loadLeadsPage()">
+  <select
+    id="statusFilter"
+    onchange="loadLeadsPage()">
 
-        <option value="ALL">
-          All statuses
-        </option>
+    <option value="ALL">
+      All statuses
+    </option>
 
-        <option>New</option>
-        <option>Contacted</option>
-        <option>Won</option>
-        <option>Lost</option>
+    <option>New</option>
+    <option>Contacted</option>
+    <option>Won</option>
+    <option>Lost</option>
 
-      </select>
+  </select>
 
-    </div>
+</div>
 
-    <br>
+<br>
 
-    <div id="leadsError"
-         class="error-box hidden">
-    </div>
+<div id="leadsError"
+     class="error-box hidden">
+</div>
 
-    <div class="table-container">
+<div class="table-container">
 
-      <table>
+  <table>
 
-        <thead>
+    <thead>
 
-          <tr>
-            <th>NAME</th>
-            <th>EMAIL</th>
-            <th>PRIORITY</th>
-            <th>STATUS</th>
-            <th>DATE</th>
-            <th></th>
-          </tr>
+      <tr>
+        <th>NAME</th>
+        <th>EMAIL</th>
+        <th>PRIORITY</th>
+        <th>STATUS</th>
+        <th>DATE</th>
+        <th></th>
+      </tr>
 
-        </thead>
+    </thead>
 
-        <tbody id="allLeadTable">
-        </tbody>
+    <tbody id="allLeadTable">
+    </tbody>
 
-      </table>
+  </table>
 
-    </div>
+</div>
+```
 
   </div>
 
@@ -860,21 +994,23 @@ textarea{
        class="card hidden"
        style="margin-top:20px">
 
-    <div class="card-header">
+```
+<div class="card-header">
 
-      <h2>
-        Lead Details
-      </h2>
+  <h2>
+    Lead Details
+  </h2>
 
-      <button class="secondary-button"
-              onclick="closeLeadDetails()">
-        Close
-      </button>
+  <button class="secondary-button"
+          onclick="closeLeadDetails()">
+    Close
+  </button>
 
-    </div>
+</div>
 
-    <div id="leadDetailsContent">
-    </div>
+<div id="leadDetailsContent">
+</div>
+```
 
   </div>
 
@@ -884,115 +1020,120 @@ textarea{
 
   <div class="topbar">
 
-    <div class="page-title">
+```
+<div class="page-title">
 
-      <h1>
-        Business Settings
-      </h1>
+  <h1>
+    Business Settings
+  </h1>
 
-      <p>
-        Tell LeadFlow how your business communicates.
-      </p>
+  <p>
+    Tell LeadFlow how your business communicates.
+  </p>
 
-    </div>
+</div>
+```
 
   </div>
 
   <div class="card">
 
-    <h2 style="margin-bottom:8px">
-      Business Profile
-    </h2>
+```
+<h2 style="margin-bottom:8px">
+  Business Profile
+</h2>
 
-    <p class="muted small"
-       style="margin-bottom:23px">
+<p class="muted small"
+   style="margin-bottom:23px">
 
-      These details personalize your future
-      AI-generated replies.
+  These details personalize your AI-generated replies.
 
-    </p>
+</p>
 
-    <div class="form-grid">
+<div class="form-grid">
 
-      <div>
+  <div>
 
-        <label>
-          Business Name
-        </label>
+    <label>
+      Business Name
+    </label>
 
-        <input
-          id="businessName"
-          placeholder="Smith Plumbing">
+    <input
+      id="businessName"
+      maxlength="200"
+      placeholder="Smith Plumbing">
 
-      </div>
+  </div>
 
-      <div>
+  <div>
 
-        <label>
-          Business Type
-        </label>
+    <label>
+      Business Type
+    </label>
 
-        <input
-          id="businessType"
-          placeholder="Plumbing Company">
+    <input
+      id="businessType"
+      maxlength="200"
+      placeholder="Plumbing Company">
 
-      </div>
+  </div>
 
-      <div class="full">
+  <div class="full">
 
-        <label>
-          Services
-        </label>
+    <label>
+      Services
+    </label>
 
-        <textarea
-          id="services"
-          placeholder="Emergency plumbing, pipe repair, water heaters..."
-        ></textarea>
+    <textarea
+      id="services"
+      maxlength="2000"
+      placeholder="Emergency plumbing, pipe repair, water heaters..."></textarea>
 
-      </div>
+  </div>
 
-      <div>
+  <div>
 
-        <label>
-          Communication Tone
-        </label>
+    <label>
+      Communication Tone
+    </label>
 
-        <select id="tone">
+    <select id="tone">
 
-          <option>
-            Professional and friendly
-          </option>
+      <option>
+        Professional and friendly
+      </option>
 
-          <option>
-            Professional
-          </option>
+      <option>
+        Professional
+      </option>
 
-          <option>
-            Friendly and casual
-          </option>
+      <option>
+        Friendly and casual
+      </option>
 
-          <option>
-            Short and direct
-          </option>
+      <option>
+        Short and direct
+      </option>
 
-        </select>
+    </select>
 
-      </div>
+  </div>
 
-    </div>
+</div>
 
-    <br>
+<br>
 
-    <button class="primary-button"
-            onclick="saveSettings()">
+<button class="primary-button"
+        onclick="saveSettings()">
 
-      Save Settings
+  Save Settings
 
-    </button>
+</button>
 
-    <span id="settingsSaved"
-          class="muted">
-    </span>
+<span id="settingsSaved"
+      class="muted">
+</span>
+```
 
   </div>
 
@@ -1008,28 +1149,41 @@ textarea{
 
 <script>
 
+/*
+ * IMPORTANT:
+ * This is the REAL LeadFlow Worker.
+ *
+ * Do NOT change this back to the old
+ * llm-chat-app-template Worker.
+ */
 const API_BASE =
-  "https://llm-chat-app-template.leadflow67.workers.dev";
+  "https://leadflow.leadflow67.workers.dev";
 
 let leads = [];
 
-let settings =
-  JSON.parse(
-    localStorage.getItem(
-      "leadflow_settings"
-    ) || "{}"
-  );
+let settings = {};
+
+try{
+  settings =
+    JSON.parse(
+      localStorage.getItem(
+        "leadflow_settings"
+      ) || "{}"
+    );
+}catch{
+  settings = {};
+}
 
 settings = {
-
-  businessName: "",
-  businessType: "",
-  services: "",
-  tone: "Professional and friendly",
-
+  businessName:"",
+  businessType:"",
+  services:"",
+  tone:"Professional and friendly",
   ...settings
-
 };
+
+let leadSearchTimer = null;
+
 
 /*
  * NAVIGATION
@@ -1040,33 +1194,23 @@ function showPage(page){
   document
     .querySelectorAll("section")
     .forEach(section => {
-
-      section.classList.add(
-        "hidden"
-      );
-
+      section.classList.add("hidden");
     });
 
   const target =
     document.getElementById(page);
 
   if(target){
-
-    target.classList.remove(
-      "hidden"
-    );
-
+    target.classList.remove("hidden");
   }
 
   document
     .querySelectorAll(".nav-item")
     .forEach(item => {
-
       item.classList.toggle(
         "active",
         item.dataset.page === page
       );
-
     });
 
   if(page === "dashboard"){
@@ -1080,8 +1224,8 @@ function showPage(page){
   if(page === "settings"){
     loadSettings();
   }
-
 }
+
 
 /*
  * DASHBOARD
@@ -1093,39 +1237,48 @@ async function loadDashboard(){
 
     const statsResponse =
       await fetch(
-        API_BASE + "/api/stats"
+        API_BASE + "/api/stats",
+        {
+          method:"GET",
+          cache:"no-store"
+        }
       );
 
     const statsData =
       await statsResponse.json();
 
     if(
-      statsResponse.ok &&
-      statsData.success
+      !statsResponse.ok ||
+      !statsData.success
     ){
-
-      document
-        .getElementById("totalLeads")
-        .textContent =
-          statsData.stats.totalLeads;
-
-      document
-        .getElementById("newLeads")
-        .textContent =
-          statsData.stats.newLeads;
-
-      document
-        .getElementById("highPriority")
-        .textContent =
-          statsData.stats.highPriority;
-
-      document
-        .getElementById("conversionRate")
-        .textContent =
-          statsData.stats.conversionRate +
-          "%";
-
+      throw new Error(
+        statsData.error ||
+        "Failed to load statistics"
+      );
     }
+
+    const stats =
+      statsData.stats || {};
+
+    document
+      .getElementById("totalLeads")
+      .textContent =
+        Number(stats.totalLeads || 0);
+
+    document
+      .getElementById("newLeads")
+      .textContent =
+        Number(stats.newLeads || 0);
+
+    document
+      .getElementById("highPriority")
+      .textContent =
+        Number(stats.highPriority || 0);
+
+    document
+      .getElementById("conversionRate")
+      .textContent =
+        Number(stats.conversionRate || 0) + "%";
 
     await loadRecentLeads();
 
@@ -1141,19 +1294,19 @@ async function loadDashboard(){
       error
     );
 
-    document
-      .getElementById("dashboardError")
-      .textContent =
-        "Unable to load dashboard data. Please refresh.";
+    const box =
+      document.getElementById(
+        "dashboardError"
+      );
 
-    document
-      .getElementById("dashboardError")
-      .classList
-      .remove("hidden");
+    box.textContent =
+      "Unable to load dashboard data. " +
+      error.message;
 
+    box.classList.remove("hidden");
   }
-
 }
+
 
 async function loadRecentLeads(){
 
@@ -1163,24 +1316,20 @@ async function loadRecentLeads(){
     );
 
   table.innerHTML = `
-
     <tr>
-
-      <td colspan="5"
-          class="loading">
-
+      <td colspan="5" class="loading">
         Loading leads...
-
       </td>
-
     </tr>
-
   `;
 
   const response =
     await fetch(
-      API_BASE +
-      "/api/leads"
+      API_BASE + "/api/leads",
+      {
+        method:"GET",
+        cache:"no-store"
+      }
     );
 
   const data =
@@ -1190,18 +1339,16 @@ async function loadRecentLeads(){
     !response.ok ||
     !data.success
   ){
-
     throw new Error(
       data.error ||
       "Failed to load leads"
     );
-
   }
 
   leads =
-    data.leads.map(
-      normalizeLead
-    );
+    Array.isArray(data.leads)
+      ? data.leads.map(normalizeLead)
+      : [];
 
   const recent =
     leads.slice(0,8);
@@ -1209,66 +1356,67 @@ async function loadRecentLeads(){
   if(!recent.length){
 
     table.innerHTML = `
-
       <tr>
-
-        <td colspan="5"
-            class="muted">
-
+        <td colspan="5" class="muted">
           No leads yet.
-
         </td>
-
       </tr>
-
     `;
 
     return;
-
   }
 
   table.innerHTML =
     recent.map(
       lead => `
-
         <tr>
-
           <td>
             ${escapeHtml(lead.name)}
           </td>
 
           <td>
-            ${escapeHtml(lead.email)}
+            ${escapeHtml(lead.email || "—")}
           </td>
 
           <td>
-
             <span class="badge ${priorityClass(lead.priority)}">
-
               ${escapeHtml(lead.priority)}
-
             </span>
-
           </td>
 
           <td>
-            ${escapeHtml(lead.status)}
+            <span class="status-badge ${statusClass(lead.status)}">
+              ${escapeHtml(lead.status)}
+            </span>
           </td>
 
           <td>
             ${escapeHtml(lead.date)}
           </td>
-
         </tr>
-
       `
-    ).join("");
-
+    )
+    .join("");
 }
 
+
 /*
- * LOAD LEADS PAGE
+ * LEADS PAGE
  */
+
+function debouncedLoadLeadsPage(){
+
+  clearTimeout(
+    leadSearchTimer
+  );
+
+  leadSearchTimer =
+    setTimeout(
+      loadLeadsPage,
+      300
+    );
+}
+
 
 async function loadLeadsPage(){
 
@@ -1288,18 +1436,11 @@ async function loadLeadsPage(){
     ).value;
 
   table.innerHTML = `
-
     <tr>
-
-      <td colspan="6"
-          class="loading">
-
+      <td colspan="6" class="loading">
         Loading leads...
-
       </td>
-
     </tr>
-
   `;
 
   try{
@@ -1311,21 +1452,17 @@ async function loadLeadsPage(){
       status &&
       status !== "ALL"
     ){
-
       params.set(
         "status",
         status
       );
-
     }
 
     if(search){
-
       params.set(
         "search",
         search
       );
-
     }
 
     const query =
@@ -1337,7 +1474,11 @@ async function loadLeadsPage(){
       await fetch(
         API_BASE +
         "/api/leads" +
-        query
+        query,
+        {
+          method:"GET",
+          cache:"no-store"
+        }
       );
 
     const data =
@@ -1347,18 +1488,16 @@ async function loadLeadsPage(){
       !response.ok ||
       !data.success
     ){
-
       throw new Error(
         data.error ||
         "Failed to load leads"
       );
-
     }
 
     leads =
-      data.leads.map(
-        normalizeLead
-      );
+      Array.isArray(data.leads)
+        ? data.leads.map(normalizeLead)
+        : [];
 
     renderLeadsTable();
 
@@ -1375,17 +1514,11 @@ async function loadLeadsPage(){
     );
 
     table.innerHTML = `
-
       <tr>
-
         <td colspan="6">
-
           Unable to load leads.
-
         </td>
-
       </tr>
-
     `;
 
     document
@@ -1397,10 +1530,9 @@ async function loadLeadsPage(){
       .getElementById("leadsError")
       .classList
       .remove("hidden");
-
   }
-
 }
+
 
 function renderLeadsTable(){
 
@@ -1412,104 +1544,98 @@ function renderLeadsTable(){
   if(!leads.length){
 
     table.innerHTML = `
-
       <tr>
-
-        <td colspan="6"
-            class="muted">
-
+        <td colspan="6" class="muted">
           No leads found.
-
         </td>
-
       </tr>
-
     `;
 
     return;
-
   }
 
   table.innerHTML =
     leads.map(
-      lead => `
+      lead => {
 
-        <tr>
+        const id =
+          Number(lead.id);
 
-          <td>
-            ${escapeHtml(lead.name)}
-          </td>
+        const safeId =
+          Number.isFinite(id)
+            ? id
+            : 0;
 
-          <td>
-            ${escapeHtml(lead.email)}
-          </td>
+        return `
+          <tr>
 
-          <td>
+            <td>
+              ${escapeHtml(lead.name)}
+            </td>
 
-            <span class="badge ${priorityClass(lead.priority)}">
+            <td>
+              ${escapeHtml(lead.email || "—")}
+            </td>
 
-              ${escapeHtml(lead.priority)}
+            <td>
+              <span class="badge ${priorityClass(lead.priority)}">
+                ${escapeHtml(lead.priority)}
+              </span>
+            </td>
 
-            </span>
+            <td>
 
-          </td>
+              <select
+                onchange="changeLeadStatus(${safeId}, this.value)">
 
-          <td>
+                ${[
+                  "New",
+                  "Contacted",
+                  "Won",
+                  "Lost"
+                ]
+                .map(
+                  status => `
+                    <option
+                      value="${status}"
+                      ${
+                        status === lead.status
+                          ? "selected"
+                          : ""
+                      }>
+                      ${status}
+                    </option>
+                  `
+                )
+                .join("")}
 
-            <select
-              onchange="changeLeadStatus(${Number(lead.id)}, this.value)">
+              </select>
 
-              ${[
-                "New",
-                "Contacted",
-                "Won",
-                "Lost"
-              ]
-              .map(
-                status => `
+            </td>
 
-                  <option
-                    value="${status}"
-                    ${
-                      status === lead.status
-                        ? "selected"
-                        : ""
-                    }>
+            <td>
+              ${escapeHtml(lead.date)}
+            </td>
 
-                    ${status}
+            <td>
 
-                  </option>
+              <button
+                class="secondary-button"
+                onclick="viewLead(${safeId})">
 
-                `
-              )
-              .join("")}
+                View
 
-            </select>
+              </button>
 
-          </td>
+            </td>
 
-          <td>
-            ${escapeHtml(lead.date)}
-          </td>
-
-          <td>
-
-            <button
-              class="secondary-button"
-              onclick="viewLead(${Number(lead.id)})">
-
-              View
-
-            </button>
-
-          </td>
-
-        </tr>
-
-      `
-    ).join("");
-
+          </tr>
+        `;
+      }
+    )
+    .join("");
 }
+
 
 /*
  * UPDATE STATUS
@@ -1520,27 +1646,27 @@ async function changeLeadStatus(
   status
 ){
 
+  if(!Number.isFinite(Number(id))){
+    return;
+  }
+
   try{
 
     const response =
       await fetch(
         API_BASE +
         "/api/leads/" +
-        id +
+        encodeURIComponent(id) +
         "/status",
         {
-
           method:"POST",
-
           headers:{
             "Content-Type":
               "application/json"
           },
-
           body:JSON.stringify({
             status
           })
-
         }
       );
 
@@ -1551,12 +1677,10 @@ async function changeLeadStatus(
       !response.ok ||
       !data.success
     ){
-
       throw new Error(
         data.error ||
         "Failed to update status"
       );
-
     }
 
     showToast(
@@ -1579,16 +1703,19 @@ async function changeLeadStatus(
     );
 
     await loadLeadsPage();
-
   }
-
 }
+
 
 /*
  * VIEW LEAD DETAILS
  */
 
 async function viewLead(id){
+
+  if(!Number.isFinite(Number(id))){
+    return;
+  }
 
   const container =
     document.getElementById(
@@ -1605,11 +1732,9 @@ async function viewLead(id){
   );
 
   content.innerHTML = `
-
     <div class="loading">
       Loading lead...
     </div>
-
   `;
 
   try{
@@ -1618,7 +1743,11 @@ async function viewLead(id){
       await fetch(
         API_BASE +
         "/api/leads/" +
-        id
+        encodeURIComponent(id),
+        {
+          method:"GET",
+          cache:"no-store"
+        }
       );
 
     const data =
@@ -1628,12 +1757,10 @@ async function viewLead(id){
       !response.ok ||
       !data.success
     ){
-
       throw new Error(
         data.error ||
         "Lead not found"
       );
-
     }
 
     const lead =
@@ -1656,12 +1783,32 @@ async function viewLead(id){
 
         <p>
           <strong>Email:</strong>
-          ${escapeHtml(lead.email || "Not provided")}
+          ${escapeHtml(
+            lead.email ||
+            "Not provided"
+          )}
         </p>
 
         <p>
           <strong>Phone:</strong>
-          ${escapeHtml(lead.phone || "Not provided")}
+          ${escapeHtml(
+            lead.phone ||
+            "Not provided"
+          )}
+        </p>
+
+        <p>
+          <strong>Source:</strong>
+          ${escapeHtml(
+            lead.source
+          )}
+        </p>
+
+        <p>
+          <strong>Status:</strong>
+          ${escapeHtml(
+            lead.status
+          )}
         </p>
 
       </div>
@@ -1701,12 +1848,26 @@ async function viewLead(id){
 
         <p>
           <strong>Summary:</strong>
-          ${escapeHtml(lead.summary)}
+          ${escapeHtml(
+            lead.summary ||
+            "No summary available."
+          )}
         </p>
 
         <p>
           <strong>Recommended Action:</strong>
-          ${escapeHtml(lead.recommendedAction)}
+          ${escapeHtml(
+            lead.recommendedAction ||
+            "Review this lead manually."
+          )}
+        </p>
+
+        <p>
+          <strong>Follow-up Timing:</strong>
+          ${escapeHtml(
+            lead.followUpTiming ||
+            "Not specified"
+          )}
         </p>
 
       </div>
@@ -1718,16 +1879,48 @@ async function viewLead(id){
         </h3>
 
         <div class="response">
-          ${escapeHtml(lead.response)}
+          ${escapeHtml(
+            lead.response ||
+            "No suggested response available."
+          )}
         </div>
 
         <br>
 
         <button
           class="primary-button"
-          onclick="copyText(${JSON.stringify(lead.response)})">
+          onclick="copyText(${JSON.stringify(
+            lead.response || ""
+          )})">
 
           Copy Response
+
+        </button>
+
+      </div>
+
+      <div class="detail-card">
+
+        <h3>
+          Follow-up Message
+        </h3>
+
+        <div class="response">
+          ${escapeHtml(
+            lead.followUpMessage ||
+            "No follow-up message available."
+          )}
+        </div>
+
+        <br>
+
+        <button
+          class="secondary-button"
+          onclick="copyText(${JSON.stringify(
+            lead.followUpMessage || ""
+          )})">
+
+          Copy Follow-up
 
         </button>
 
@@ -1742,18 +1935,13 @@ async function viewLead(id){
   }catch(error){
 
     content.innerHTML = `
-
       <div class="error-box">
-
         ${escapeHtml(error.message)}
-
       </div>
-
     `;
-
   }
-
 }
+
 
 function closeLeadDetails(){
 
@@ -1761,8 +1949,8 @@ function closeLeadDetails(){
     .getElementById("leadDetails")
     .classList
     .add("hidden");
-
 }
+
 
 /*
  * CREATE / ANALYZE LEAD
@@ -1806,7 +1994,6 @@ async function analyzeLead(){
     );
 
     return;
-
   }
 
   const button =
@@ -1826,7 +2013,6 @@ async function analyzeLead(){
         API_BASE +
         "/api/lead",
         {
-
           method:"POST",
 
           headers:{
@@ -1866,7 +2052,6 @@ async function analyzeLead(){
             source
 
           })
-
         }
       );
 
@@ -1877,16 +2062,14 @@ async function analyzeLead(){
       !response.ok ||
       !data.success
     ){
-
       throw new Error(
         data.error ||
         "Failed to analyze lead"
       );
-
     }
 
     const a =
-      data.analysis;
+      data.analysis || {};
 
     const priority =
       ["HIGH","MEDIUM","LOW"]
@@ -1930,7 +2113,7 @@ async function analyzeLead(){
         "leadScore"
       )
       .textContent =
-        (a.score ?? 50) +
+        Number(a.score ?? 50) +
         "/100";
 
     document
@@ -1943,11 +2126,27 @@ async function analyzeLead(){
 
     document
       .getElementById(
+        "followUpTiming"
+      )
+      .textContent =
+        a.followUpTiming ||
+        "Within 24 hours";
+
+    document
+      .getElementById(
         "response"
       )
       .textContent =
         a.suggestedReply ||
         "Thanks for reaching out. We've received your message and will get back to you shortly.";
+
+    document
+      .getElementById(
+        "followUpMessage"
+      )
+      .textContent =
+        a.followUpMessage ||
+        "Hi, just following up regarding your inquiry. Please let us know if you'd like to move forward.";
 
     document
       .getElementById(
@@ -1960,6 +2159,10 @@ async function analyzeLead(){
       "Lead analyzed and saved"
     );
 
+    /*
+     * Refresh dashboard so the newly
+     * created lead immediately appears.
+     */
     await loadDashboard();
 
   }catch(error){
@@ -1980,10 +2183,9 @@ async function analyzeLead(){
 
     button.textContent =
       "Analyze Lead";
-
   }
-
 }
+
 
 /*
  * SETTINGS
@@ -2036,8 +2238,8 @@ function saveSettings(){
         "";
 
   },3000);
-
 }
+
 
 function loadSettings(){
 
@@ -2061,8 +2263,8 @@ function loadSettings(){
     .value =
       settings.tone ||
       "Professional and friendly";
-
 }
+
 
 /*
  * COPY
@@ -2076,37 +2278,88 @@ function copyResponse(){
       .textContent;
 
   copyText(text);
-
 }
 
-function copyText(text){
 
-  navigator.clipboard
-    .writeText(text)
-    .then(() => {
+async function copyText(text){
 
-      document
-        .getElementById("copied")
-        ?.replaceChildren(
-          document.createTextNode(
-            "Copied!"
-          )
+  try{
+
+    if(
+      navigator.clipboard &&
+      window.isSecureContext
+    ){
+
+      await navigator.clipboard.writeText(
+        text
+      );
+
+    }else{
+
+      const textarea =
+        document.createElement(
+          "textarea"
         );
 
-      showToast(
-        "Response copied"
+      textarea.value =
+        text;
+
+      textarea.style.position =
+        "fixed";
+
+      textarea.style.opacity =
+        "0";
+
+      document.body.appendChild(
+        textarea
       );
 
-    })
-    .catch(() => {
+      textarea.focus();
+      textarea.select();
 
-      alert(
-        "Unable to copy automatically."
+      document.execCommand(
+        "copy"
       );
 
-    });
+      textarea.remove();
+    }
 
+    const copied =
+      document.getElementById(
+        "copied"
+      );
+
+    if(copied){
+      copied.textContent =
+        "Copied!";
+    }
+
+    showToast(
+      "Text copied"
+    );
+
+    setTimeout(() => {
+
+      if(copied){
+        copied.textContent =
+          "";
+      }
+
+    },2500);
+
+  }catch(error){
+
+    console.error(
+      "Copy error:",
+      error
+    );
+
+    alert(
+      "Unable to copy automatically."
+    );
+  }
 }
+
 
 /*
  * HELPERS
@@ -2168,6 +2421,16 @@ function normalizeLead(lead){
       lead.suggestedReply ||
       "",
 
+    followUpTiming:
+      lead.follow_up_timing ||
+      lead.followUpTiming ||
+      "",
+
+    followUpMessage:
+      lead.follow_up_message ||
+      lead.followUpMessage ||
+      "",
+
     status:
       lead.status ||
       "New",
@@ -2178,8 +2441,8 @@ function normalizeLead(lead){
       )
 
   };
-
 }
+
 
 function priorityClass(priority){
 
@@ -2192,8 +2455,27 @@ function priorityClass(priority){
   }
 
   return "medium";
-
 }
+
+
+function statusClass(status){
+
+  switch(status){
+
+    case "Contacted":
+      return "status-contacted";
+
+    case "Won":
+      return "status-won";
+
+    case "Lost":
+      return "status-lost";
+
+    default:
+      return "status-new";
+  }
+}
+
 
 function formatDate(date){
 
@@ -2209,14 +2491,19 @@ function formatDate(date){
       parsed.getTime()
     )
   ){
-
     return String(date);
-
   }
 
-  return parsed.toLocaleDateString();
-
+  return parsed.toLocaleDateString(
+    undefined,
+    {
+      year:"numeric",
+      month:"short",
+      day:"numeric"
+    }
+  );
 }
+
 
 function escapeHtml(value){
 
@@ -2226,8 +2513,8 @@ function escapeHtml(value){
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
-
 }
+
 
 function showToast(message){
 
@@ -2255,8 +2542,8 @@ function showToast(message){
       );
 
     },3000);
-
 }
+
 
 /*
  * START
@@ -2269,4 +2556,3 @@ loadDashboard();
 
 </body>
 </html>
-```
